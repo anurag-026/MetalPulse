@@ -1,4 +1,4 @@
-# Elemental Pulse
+# Metal Pulse
 
 <h2 align="center">
   A React Native mobile application for tracking precious metal prices with beautiful onboarding screens and real-time market data.
