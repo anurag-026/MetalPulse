@@ -1,5 +1,5 @@
 export const API_CONFIG = {
-  useApi: false,
+  useApi: true,
 
   primaryCurrency: 'INR',
   defaultCurrency: 'INR',
