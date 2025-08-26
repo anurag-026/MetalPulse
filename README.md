@@ -157,6 +157,93 @@ Create a `.env` file in the root directory for any environment-specific configur
 - Smooth animations and transitions
 - Intuitive navigation patterns
 
+## 🚧 Current Limitations & Areas for Improvement
+
+### 🔴 Critical Issues
+
+#### API Integration & Data
+- **Limited Real API Integration**: Currently heavily relies on mock data with basic API fallback
+- **API Rate Limiting**: No proper rate limiting or caching mechanism implemented
+- **Error Handling**: Basic error handling without user-friendly error messages or retry mechanisms
+- **Data Validation**: Missing input validation and data sanitization for API responses
+- **Offline Support**: No proper offline-first architecture or data persistence
+
+#### Performance & Scalability
+- **Memory Management**: No optimization for large datasets or long-running sessions
+- **Bundle Size**: No code splitting or lazy loading implemented
+- **Image Optimization**: No image compression or lazy loading for assets
+- **State Management**: Basic Context API usage without proper state optimization
+
+### 🟡 Medium Priority Improvements
+
+#### User Experience
+- **Authentication**: No user login/signup system or user profile management
+- **Personalization**: Limited customization options for users
+- **Notifications**: No push notifications for price alerts or market updates
+- **Search & Filtering**: Basic metal listing without advanced search capabilities
+- **Favorites/Watchlist**: No persistent user preferences or watchlist functionality
+
+#### Data & Analytics
+- **Historical Charts**: No interactive charts or technical analysis tools
+- **Portfolio Tracking**: No user portfolio management or performance tracking
+- **Market News**: No integration with financial news or market sentiment data
+- **Export Functionality**: No data export or sharing capabilities
+- **Data Accuracy**: Limited validation of mock data accuracy
+
+#### Technical Architecture
+- **Testing**: No unit tests, integration tests, or E2E tests implemented
+- **CI/CD**: No automated testing or deployment pipeline
+- **Code Quality**: Missing ESLint, Prettier, or code formatting tools
+- **Documentation**: Limited inline code documentation and API documentation
+- **Type Safety**: Some TypeScript types could be more strict and comprehensive
+
+### 🟢 Future Enhancements
+
+#### Advanced Features
+- **Real-time Updates**: WebSocket integration for live price updates
+- **Advanced Charts**: Interactive charts with multiple timeframes and indicators
+- **Social Features**: User communities, sharing, and social trading features
+- **AI Integration**: Price prediction models and market analysis
+- **Multi-language**: Internationalization support for multiple languages
+
+#### Platform Expansion
+- **Web Version**: React Native Web support for cross-platform accessibility
+- **Desktop App**: Electron-based desktop application
+- **Watch App**: Apple Watch and Wear OS companion apps
+- **Widgets**: Home screen widgets for quick price checks
+
+#### Enterprise Features
+- **Admin Panel**: Backend management system for administrators
+- **Analytics Dashboard**: User behavior and app performance analytics
+- **Multi-tenant**: Support for multiple organizations or user groups
+- **API Access**: Public API for third-party integrations
+
+## 🎯 Immediate Action Items
+
+### Week 1-2: Foundation
+- [ ] Implement proper error handling and user feedback
+- [ ] Add input validation and data sanitization
+- [ ] Set up basic testing framework (Jest + React Native Testing Library)
+- [ ] Add ESLint and Prettier for code quality
+
+### Week 3-4: Core Features
+- [ ] Implement proper offline support with data persistence
+- [ ] Add user authentication system
+- [ ] Create portfolio tracking functionality
+- [ ] Implement push notifications for price alerts
+
+### Week 5-6: Enhancement
+- [ ] Add interactive charts and historical data
+- [ ] Implement advanced search and filtering
+- [ ] Add user preferences and customization
+- [ ] Create comprehensive testing suite
+
+### Week 7-8: Polish
+- [ ] Performance optimization and memory management
+- [ ] UI/UX improvements based on user feedback
+- [ ] Documentation and API reference
+- [ ] Prepare for production deployment
+
 ## 🤝 Contributing
 
 1. Fork the repository
