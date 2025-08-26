@@ -19,15 +19,11 @@ Elemental Pulse is a modern React Native application that provides users with re
 
 ## 🎥 App Demo
 
-<p align="center">
-  <video width="400" height="300" controls autoplay muted loop>
-    <source src="metal-pulse.webm" type="video/webm">
-    <source src="metal-pulse.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</p>
+![Elemental Pulse Demo](metal-pulse.gif)
 
 *Watch Elemental Pulse in action - Beautiful onboarding screens and metal price tracking interface*
+
+> **Note:** For the full demo video, [click here to watch](metal-pulse.webm) or [download directly](metal-pulse.webm).
 
 ## ✨ Features
 
