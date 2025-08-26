@@ -11,16 +11,23 @@
   <img alt="License" src="https://img.shields.io/badge/License-MIT-green.svg">
 </p>
 
-<p align="center">
-  <video width="300" controls>
-    <source src="metal-pulse.webm" type="video/webm">
-    Your browser does not support the video tag.
-  </video>
-</p>
+
 
 ## 📱 About
 
 Elemental Pulse is a modern React Native application that provides users with real-time precious metal price tracking, beautiful onboarding experience, and an intuitive interface for monitoring market data. The app features smooth animations, gesture controls, and a responsive design built with modern React Native practices.
+
+## 🎥 App Demo
+
+<p align="center">
+  <video width="400" height="300" controls autoplay muted loop>
+    <source src="metal-pulse.webm" type="video/webm">
+    <source src="metal-pulse.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</p>
+
+*Watch Elemental Pulse in action - Beautiful onboarding screens and metal price tracking interface*
 
 ## ✨ Features
 
