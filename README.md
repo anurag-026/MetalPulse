@@ -11,7 +11,24 @@
   <img alt="License" src="https://img.shields.io/badge/License-MIT-green.svg">
 </p>
 
-
+<div align="center">
+  
+  ## ⚠️ **IMPORTANT: API Rate Limit Notice**
+  
+  **If you hit the API rate limit, simply change `useApi: true` to `useApi: false` in `src/config/apiConfig.ts`**
+  
+  The app will automatically switch to mock data mode, so you can continue development without API restrictions!
+  
+  ```typescript
+  // src/config/apiConfig.ts
+  export const apiConfig = {
+    useApi: false,  // ← Change this to false when API limit is reached
+    defaultCurrency: 'INR',
+    // ... other config
+  }
+  ```
+  
+</div>
 
 ## 📱 About
 
