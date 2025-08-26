@@ -1,7 +1,3 @@
-// Mock User Data - Centralized location for all user mock data
-// This file contains all mock data related to user preferences, settings, and interactions
-
-// User preferences and settings
 export const MOCK_USER_PREFERENCES = {
   defaultCurrency: 'INR',
   defaultLanguage: 'en',
@@ -17,7 +13,7 @@ export const MOCK_USER_PREFERENCES = {
     showTimestamps: true,
     compactMode: false,
     autoRefresh: true,
-    refreshInterval: 30, // seconds
+    refreshInterval: 30,
   },
   privacy: {
     shareAnalytics: true,
@@ -26,7 +22,6 @@ export const MOCK_USER_PREFERENCES = {
   },
 };
 
-// User portfolio data
 export const MOCK_USER_PORTFOLIO = {
   totalValue: 125000,
   currency: 'INR',
@@ -75,7 +70,6 @@ export const MOCK_USER_PORTFOLIO = {
   },
 };
 
-// User watchlist
 export const MOCK_USER_WATCHLIST = [
   {
     id: 'gold',
@@ -109,7 +103,6 @@ export const MOCK_USER_WATCHLIST = [
   },
 ];
 
-// User transaction history
 export const MOCK_USER_TRANSACTIONS = [
   {
     id: 1,
@@ -121,7 +114,7 @@ export const MOCK_USER_TRANSACTIONS = [
     price: 1850,
     total: 1850,
     currency: 'INR',
-    timestamp: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7 days ago
+    timestamp: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
     status: 'completed',
   },
   {
@@ -134,7 +127,7 @@ export const MOCK_USER_TRANSACTIONS = [
     price: 22.5,
     total: 562.5,
     currency: 'INR',
-    timestamp: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000), // 14 days ago
+    timestamp: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000),
     status: 'completed',
   },
   {
@@ -147,12 +140,11 @@ export const MOCK_USER_TRANSACTIONS = [
     price: 1900,
     total: 950,
     currency: 'INR',
-    timestamp: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000), // 21 days ago
+    timestamp: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000),
     status: 'completed',
   },
 ];
 
-// User alerts and notifications
 export const MOCK_USER_ALERTS = [
   {
     id: 1,
@@ -163,7 +155,7 @@ export const MOCK_USER_ALERTS = [
     price: 2000,
     currency: 'INR',
     isActive: true,
-    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
   },
   {
     id: 2,
@@ -174,7 +166,7 @@ export const MOCK_USER_ALERTS = [
     price: 22.0,
     currency: 'INR',
     isActive: true,
-    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
+    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
   },
   {
     id: 3,
@@ -184,11 +176,10 @@ export const MOCK_USER_ALERTS = [
     condition: 'above',
     percentage: 5.0,
     isActive: false,
-    createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 days ago
+    createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
   },
 ];
 
-// User account information
 export const MOCK_USER_ACCOUNT = {
   id: 'user_12345',
   username: 'precious_metals_user',
@@ -200,20 +191,19 @@ export const MOCK_USER_ACCOUNT = {
   city: 'Mumbai',
   timezone: 'Asia/Kolkata',
   createdAt: new Date('2023-01-15'),
-  lastLogin: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+  lastLogin: new Date(Date.now() - 2 * 60 * 60 * 1000),
   isVerified: true,
   subscription: 'premium',
   subscriptionExpiry: new Date('2024-12-31'),
 };
 
-// User activity and analytics
 export const MOCK_USER_ACTIVITY = {
   loginCount: 45,
   lastMonthLogins: 12,
   favoriteMetals: ['gold', 'silver'],
   mostViewedTimeframe: '1D',
-  averageSessionDuration: 15, // minutes
-  totalAppUsage: 180, // hours
+  averageSessionDuration: 15,
+  totalAppUsage: 180,
   featuresUsed: ['priceTracking', 'portfolio', 'alerts', 'news'],
   deviceInfo: {
     platform: 'iOS',
@@ -222,7 +212,6 @@ export const MOCK_USER_ACTIVITY = {
   },
 };
 
-// Export functions for accessing mock data
 export function getMockUserPreferences() {
   return MOCK_USER_PREFERENCES;
 }
@@ -251,14 +240,16 @@ export function getMockUserActivity() {
   return MOCK_USER_ACTIVITY;
 }
 
-// Helper function to update mock user preferences
-export function updateMockUserPreferences(updates: Partial<typeof MOCK_USER_PREFERENCES>) {
+export function updateMockUserPreferences(
+  updates: Partial<typeof MOCK_USER_PREFERENCES>
+) {
   Object.assign(MOCK_USER_PREFERENCES, updates);
   return MOCK_USER_PREFERENCES;
 }
 
-// Helper function to add mock transaction
-export function addMockTransaction(transaction: Omit<typeof MOCK_USER_TRANSACTIONS[0], 'id'>) {
+export function addMockTransaction(
+  transaction: Omit<(typeof MOCK_USER_TRANSACTIONS)[0], 'id'>
+) {
   const newTransaction = {
     ...transaction,
     id: MOCK_USER_TRANSACTIONS.length + 1,
@@ -267,14 +258,15 @@ export function addMockTransaction(transaction: Omit<typeof MOCK_USER_TRANSACTIO
   return newTransaction;
 }
 
-// Helper function to add mock alert
-export function addMockAlert(alert: Omit<typeof MOCK_USER_ALERTS[0], 'id' | 'createdAt'>) {
+export function addMockAlert(
+  alert: Omit<(typeof MOCK_USER_ALERTS)[0], 'id' | 'createdAt'>
+) {
   const newAlert = {
     ...alert,
     id: MOCK_USER_ALERTS.length + 1,
     createdAt: new Date(),
-  } as typeof MOCK_USER_ALERTS[0];
-  
+  } as (typeof MOCK_USER_ALERTS)[0];
+
   MOCK_USER_ALERTS.unshift(newAlert);
   return newAlert;
 }

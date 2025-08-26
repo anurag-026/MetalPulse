@@ -26,17 +26,17 @@ import { theme } from '../constants/theme';
 import { useCurrency } from '../context/CurrencyContext';
 import { getCurrencyIcon } from '../utils/currencyUtils';
 import { useNavigation } from '../context/NavigationContext';
-import { 
-  fetchAllMetalPrices, 
-  fetchMetalPrice, 
+import {
+  fetchAllMetalPrices,
+  fetchMetalPrice,
   checkAPIStatus,
   type MetalPriceData,
-  type ApiResponse 
+  type ApiResponse,
 } from '../services/metalApi';
-import { 
+import {
   generateMockMetalPrice,
   MOCK_METAL_INFO,
-  getSupportedMetalIds
+  getSupportedMetalIds,
 } from '../mockData/metalData';
 import Toast from 'react-native-toast-message';
 import { CurrencySidebar } from '../components/CurrencySidebar';
@@ -82,9 +82,13 @@ const metals: MetalPrice[] = getSupportedMetalIds().map(metalId => {
   };
 });
 
-
-
-const MetalCard = ({ metal, isLoading }: { metal: MetalPrice; isLoading: boolean }) => {
+const MetalCard = ({
+  metal,
+  isLoading,
+}: {
+  metal: MetalPrice;
+  isLoading: boolean;
+}) => {
   const navigation = useNavigation();
   const { currency } = useCurrency();
   const cardScale = useSharedValue(1);
@@ -133,79 +137,101 @@ const MetalCard = ({ metal, isLoading }: { metal: MetalPrice; isLoading: boolean
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
         >
-
-
-        <View style={styles.cardHeader}>
-          <View style={styles.metalInfo}>
-            <View style={[styles.metalIconContainer, { backgroundColor: `${metal.color}20` }]}>
-              <MaterialCommunityIcons name={metal.icon as any} size={24} color={metal.color} />
-            </View>
-            <View style={styles.metalText}>
-              <Text style={styles.metalName}>{metal.name}</Text>
-              <Text style={styles.metalSymbol}>{metal.symbol}</Text>
-            </View>
-          </View>
-          <View style={styles.unitContainer}>
-            <Text style={styles.unitText}>24K {metal.unit}</Text>
-          </View>
-        </View>
-
-        <View style={styles.priceContainer}>
-                  {isLoading ? (
-          <View style={styles.loadingContainer}>
-            <Text style={styles.loadingText}>Loading...</Text>
-          </View>
-        ) : (
-            <>
-              <Text style={styles.priceLabel}>Current Price</Text>
-              <Text style={styles.priceText}>{formatPrice(metal.price)}</Text>
-              
-              {/* Price Change and Timestamp Row */}
-              <View style={styles.priceInfoRow}>
-                <View style={styles.changeContainer}>
-                  <Text style={styles.changeLabel}>Daily Change</Text>
-                  <Text
-                    style={[
-                      styles.changeText,
-                      { color: metal.change >= 0 ? '#4CAF50' : '#F44336' },
-                    ]}
-                  >
-                    {formatChange(metal.change)}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.changePercentText,
-                      { color: metal.changePercent >= 0 ? '#4CAF50' : '#F44336' },
-                    ]}
-                  >
-                    {formatChangePercent(metal.changePercent)}
-                  </Text>
-                </View>
-                
-                {/* Timestamp - Right side */}
-                <View style={styles.timestampContainer}>
-                  <Text style={styles.timestampLabel}>Last Updated</Text>
-                  <Text style={styles.timestampText}>
-                    {metal.timestamp.toLocaleTimeString('en-US', {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                      hour12: true,
-                    })}
-                  </Text>
-                </View>
+          <View style={styles.cardHeader}>
+            <View style={styles.metalInfo}>
+              <View
+                style={[
+                  styles.metalIconContainer,
+                  { backgroundColor: `${metal.color}20` },
+                ]}
+              >
+                <MaterialCommunityIcons
+                  name={metal.icon as any}
+                  size={24}
+                  color={metal.color}
+                />
               </View>
-            </>
-          )}
-        </View>
+              <View style={styles.metalText}>
+                <Text style={styles.metalName}>{metal.name}</Text>
+                <Text style={styles.metalSymbol}>{metal.symbol}</Text>
+              </View>
+            </View>
+            <View style={styles.unitContainer}>
+              <Text style={styles.unitText}>24K {metal.unit}</Text>
+            </View>
+          </View>
 
-        {/* Decorative Elements */}
-        <View style={styles.cardDecoration}>
-          <View style={[styles.decorationDot, { backgroundColor: metal.color }]} />
-          <View style={[styles.decorationDot, { backgroundColor: metal.color, opacity: 0.6 }]} />
-          <View style={[styles.decorationDot, { backgroundColor: metal.color, opacity: 0.3 }]} />
-        </View>
-      </LinearGradient>
-    </Animated.View>
+          <View style={styles.priceContainer}>
+            {isLoading ? (
+              <View style={styles.loadingContainer}>
+                <Text style={styles.loadingText}>Loading...</Text>
+              </View>
+            ) : (
+              <>
+                <Text style={styles.priceLabel}>Current Price</Text>
+                <Text style={styles.priceText}>{formatPrice(metal.price)}</Text>
+
+                {/* Price Change and Timestamp Row */}
+                <View style={styles.priceInfoRow}>
+                  <View style={styles.changeContainer}>
+                    <Text style={styles.changeLabel}>Daily Change</Text>
+                    <Text
+                      style={[
+                        styles.changeText,
+                        { color: metal.change >= 0 ? '#4CAF50' : '#F44336' },
+                      ]}
+                    >
+                      {formatChange(metal.change)}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.changePercentText,
+                        {
+                          color:
+                            metal.changePercent >= 0 ? '#4CAF50' : '#F44336',
+                        },
+                      ]}
+                    >
+                      {formatChangePercent(metal.changePercent)}
+                    </Text>
+                  </View>
+
+                  {}
+                  <View style={styles.timestampContainer}>
+                    <Text style={styles.timestampLabel}>Last Updated</Text>
+                    <Text style={styles.timestampText}>
+                      {metal.timestamp.toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true,
+                      })}
+                    </Text>
+                  </View>
+                </View>
+              </>
+            )}
+          </View>
+
+          {}
+          <View style={styles.cardDecoration}>
+            <View
+              style={[styles.decorationDot, { backgroundColor: metal.color }]}
+            />
+            <View
+              style={[
+                styles.decorationDot,
+                { backgroundColor: metal.color, opacity: 0.6 },
+              ]}
+            />
+            <View
+              style={[
+                styles.decorationDot,
+                { backgroundColor: metal.color, opacity: 0.3 },
+              ]}
+            />
+          </View>
+        </LinearGradient>
+      </Animated.View>
     </Pressable>
   );
 };
@@ -216,7 +242,9 @@ export function Home() {
   const { top } = useSafeAreaInsets();
 
   const [metalPrices, setMetalPrices] = useState<MetalPrice[]>(metals);
-  const [loadingStates, setLoadingStates] = useState<{ [key: string]: boolean }>({
+  const [loadingStates, setLoadingStates] = useState<{
+    [key: string]: boolean;
+  }>({
     gold: true,
     silver: true,
     platinum: true,
@@ -230,7 +258,6 @@ export function Home() {
   const [hasAnyData, setHasAnyData] = useState(false);
   const [dataError, setDataError] = useState<string | null>(null);
 
-  // Check API status on component mount
   useEffect(() => {
     checkAPIStatusOnMount();
   }, []);
@@ -239,8 +266,7 @@ export function Home() {
     try {
       const status = await checkAPIStatus();
       setApiStatus(status);
-      
-      // If both APIs are down, switch to mock data
+
       if (!status.GoldAPI && !status['Metals.dev']) {
         setUseMockData(true);
         Toast.show({
@@ -262,10 +288,8 @@ export function Home() {
     }
   };
 
-  // Fetch metal price using real API or fallback to mock
   const fetchMetalPriceData = async (metalId: string): Promise<MetalPrice> => {
     if (useMockData) {
-      // Use mock data if APIs are unavailable
       const mockData = generateMockMetalPrice(metalId);
       return {
         ...metals.find(m => m.id === metalId)!,
@@ -278,19 +302,10 @@ export function Home() {
 
     try {
       const response: ApiResponse = await fetchMetalPrice(metalId, currency);
-      
+
       if (response.success && response.data) {
         const metal = metals.find(m => m.id === metalId)!;
-        // Show success toast for successful API calls
-        // if (!useMockData) {
-        //   Toast.show({
-        //     type: 'success',
-        //     text1: 'Data Updated',
-        //     text2: `${metal.name} price updated successfully`,
-        //     position: 'top',
-        //     visibilityTime: 2000,
-        //   });
-        // }
+
         return {
           ...metal,
           ...response.data,
@@ -299,16 +314,17 @@ export function Home() {
           icon: metal.icon,
         };
       } else {
-        // If API fails, fallback to mock data
         console.warn(`API failed for ${metalId}:`, response.error);
-        if (response.error?.includes('429') || response.error?.toLowerCase().includes('throttl')) {
+        if (
+          response.error?.includes('429') ||
+          response.error?.toLowerCase().includes('throttl')
+        ) {
           Toast.show({
             type: 'error',
             text1: 'Rate limit reached. Switching to mock data temporarily.',
             position: 'top',
             visibilityTime: 4000,
           });
-          
         } else {
           Toast.show({
             type: 'error',
@@ -334,7 +350,7 @@ export function Home() {
         position: 'top',
         visibilityTime: 4000,
       });
-      // Fallback to mock data on error
+
       const mockData = generateMockMetalPrice(metalId);
       return {
         ...metals.find(m => m.id === metalId)!,
@@ -349,24 +365,18 @@ export function Home() {
   const loadAllPrices = async () => {
     setLastUpdated(new Date());
     setDataError(null);
-    
+
     let successCount = 0;
     let totalMetals = metals.length;
-    
-    // Load each metal price individually
+
     for (const metal of metals) {
       try {
         const priceData = await fetchMetalPriceData(metal.id);
-        setMetalPrices(prev => 
-          prev.map(m => 
-            m.id === metal.id 
-              ? { ...m, ...priceData }
-              : m
-          )
+        setMetalPrices(prev =>
+          prev.map(m => (m.id === metal.id ? { ...m, ...priceData } : m))
         );
         setLoadingStates(prev => ({ ...prev, [metal.id]: false }));
-        
-        // Check if we got valid data (price > 0)
+
         if (priceData.price > 0) {
           successCount++;
         }
@@ -375,11 +385,9 @@ export function Home() {
         setLoadingStates(prev => ({ ...prev, [metal.id]: false }));
       }
     }
-    
-    // Update data availability state
+
     setHasAnyData(successCount > 0);
-    
-    // If no data at all, set error message
+
     if (successCount === 0) {
       setDataError('No market data available');
     }
@@ -399,8 +407,7 @@ export function Home() {
     });
     await loadAllPrices();
     setRefreshing(false);
-    
-    // Show refresh completion toast
+
     Toast.show({
       type: 'success',
       text1: 'Market prices updated successfully',
@@ -421,19 +428,18 @@ export function Home() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1a1a2e" />
-      
-      {/* Header */}
-      <LinearGradient
-        colors={['#1a1a2e', '#16213e']}
-        style={styles.header}
-      >
+
+      {}
+      <LinearGradient colors={['#1a1a2e', '#16213e']} style={styles.header}>
         <View style={styles.headerContent}>
           <View>
             <Text style={styles.headerTitle}>Precious Metals</Text>
-            <Text style={styles.headerSubtitle}>Live Market Prices (24 Carat)</Text>
+            <Text style={styles.headerSubtitle}>
+              Live Market Prices (24 Carat)
+            </Text>
           </View>
           <View style={styles.headerActions}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.menuButton}
               onPress={() => setIsSidebarVisible(true)}
               activeOpacity={0.7}
@@ -445,28 +451,39 @@ export function Home() {
             </View>
           </View>
         </View>
-        
+
         <View style={styles.lastUpdatedContainer}>
           <Ionicons name="time-outline" size={16} color="#8a8a8a" />
           <Text style={styles.lastUpdatedText}>
             Last updated: {formatTimestamp(lastUpdated)}
           </Text>
-          
-          {/* Currency Indicator */}
-          <TouchableOpacity 
+
+          {}
+          <TouchableOpacity
             style={styles.currencyIndicator}
             onPress={() => setIsSidebarVisible(true)}
             activeOpacity={0.7}
           >
-            <Text style={styles.currencySymbol}>{getCurrencyIcon(currency)}</Text>
+            <Text style={styles.currencySymbol}>
+              {getCurrencyIcon(currency)}
+            </Text>
             <Text style={styles.currencyCode}>{currency}</Text>
           </TouchableOpacity>
-          
-          {/* API Status Indicator */}
+
+          {}
           <View style={styles.apiStatusContainer}>
             {Object.keys(apiStatus).length > 0 && (
               <>
-                <View style={[styles.apiStatusDot, { backgroundColor: apiStatus.GoldAPI ? '#4CAF50' : '#F44336' }]} />
+                <View
+                  style={[
+                    styles.apiStatusDot,
+                    {
+                      backgroundColor: apiStatus.GoldAPI
+                        ? '#4CAF50'
+                        : '#F44336',
+                    },
+                  ]}
+                />
                 <Text style={styles.apiStatusText}>
                   {useMockData ? 'Mock Data' : 'Live Data'}
                 </Text>
@@ -476,7 +493,7 @@ export function Home() {
         </View>
       </LinearGradient>
 
-      {/* Content */}
+      {}
       {!hasAnyData && dataError ? (
         <EmptyState
           type="no-data"
@@ -501,116 +518,144 @@ export function Home() {
           }
           showsVerticalScrollIndicator={false}
         >
-        {/* Market Summary */}
-        <View style={styles.summaryContainer}>
-          <View style={styles.summaryHeader}>
-            <Text style={styles.summaryTitle}>Market Overview</Text>
-            <View style={styles.summaryIcon}>
-              <Ionicons name="analytics-outline" size={20} color="#FFD700" />
-            </View>
-          </View>
-          
-          <View style={styles.summaryStats}>
-            <View style={styles.summaryStat}>
-              <View style={[styles.statIcon, { backgroundColor: 'rgba(76, 175, 80, 0.2)' }]}>
-                <Ionicons name="checkmark-circle" size={20} color="#4CAF50" />
+          {}
+          <View style={styles.summaryContainer}>
+            <View style={styles.summaryHeader}>
+              <Text style={styles.summaryTitle}>Market Overview</Text>
+              <View style={styles.summaryIcon}>
+                <Ionicons name="analytics-outline" size={20} color="#FFD700" />
               </View>
-              <Text style={styles.summaryStatValue}>
-                {metalPrices.filter(m => !loadingStates[m.id]).length}
-              </Text>
-              <Text style={styles.summaryStatLabel}>Active</Text>
             </View>
-            <View style={styles.summaryStat}>
-              <View style={[styles.statIcon, { backgroundColor: 'rgba(76, 175, 80, 0.2)' }]}>
-                <Ionicons name="trending-up" size={20} color="#4CAF50" />
-              </View>
-              <Text style={styles.summaryStatValue}>
-                {metalPrices.filter(m => m.change > 0 && !loadingStates[m.id]).length}
-              </Text>
-              <Text style={styles.summaryStatLabel}>Gaining</Text>
-            </View>
-            <View style={styles.summaryStat}>
-              <View style={[styles.statIcon, { backgroundColor: 'rgba(244, 67, 54, 0.2)' }]}>
-                <Ionicons name="trending-down" size={20} color="#F44336" />
-              </View>
-              <Text style={styles.summaryStatValue}>
-                {metalPrices.filter(m => m.change < 0 && !loadingStates[m.id]).length}
-              </Text>
-              <Text style={styles.summaryStatLabel}>Declining</Text>
-            </View>
-          </View>
-          
-          {/* Market Trend Chart */}
-          <View style={styles.chartContainer}>
-            <Text style={styles.chartTitle}>24h Trend</Text>
-            <View style={styles.chartBars}>
-              {metalPrices.map((metal, index) => (
-                <View key={metal.id} style={styles.chartBarContainer}>
-                  <View style={styles.chartBar}>
-                                      {loadingStates[metal.id] ? (
-                    <View style={styles.chartBar}>
-                      <View style={[styles.chartBarFill, { height: '20%', backgroundColor: '#e9ecef' }]} />
-                    </View>
-                  ) : (
-                      <View
-                        style={[
-                          styles.chartBarFill,
-                          {
-                            height: `${Math.min(Math.max(Math.abs(metal.changePercent) * 2, 10), 70)}%`,
-                            backgroundColor: metal.change >= 0 ? '#4CAF50' : '#F44336',
-                          },
-                        ]}
-                      />
-                    )}
-                  </View>
-                  <Text style={styles.chartBarLabel}>{metal.symbol}</Text>
+
+            <View style={styles.summaryStats}>
+              <View style={styles.summaryStat}>
+                <View
+                  style={[
+                    styles.statIcon,
+                    { backgroundColor: 'rgba(76, 175, 80, 0.2)' },
+                  ]}
+                >
+                  <Ionicons name="checkmark-circle" size={20} color="#4CAF50" />
                 </View>
-              ))}
+                <Text style={styles.summaryStatValue}>
+                  {metalPrices.filter(m => !loadingStates[m.id]).length}
+                </Text>
+                <Text style={styles.summaryStatLabel}>Active</Text>
+              </View>
+              <View style={styles.summaryStat}>
+                <View
+                  style={[
+                    styles.statIcon,
+                    { backgroundColor: 'rgba(76, 175, 80, 0.2)' },
+                  ]}
+                >
+                  <Ionicons name="trending-up" size={20} color="#4CAF50" />
+                </View>
+                <Text style={styles.summaryStatValue}>
+                  {
+                    metalPrices.filter(
+                      m => m.change > 0 && !loadingStates[m.id]
+                    ).length
+                  }
+                </Text>
+                <Text style={styles.summaryStatLabel}>Gaining</Text>
+              </View>
+              <View style={styles.summaryStat}>
+                <View
+                  style={[
+                    styles.statIcon,
+                    { backgroundColor: 'rgba(244, 67, 54, 0.2)' },
+                  ]}
+                >
+                  <Ionicons name="trending-down" size={20} color="#F44336" />
+                </View>
+                <Text style={styles.summaryStatValue}>
+                  {
+                    metalPrices.filter(
+                      m => m.change < 0 && !loadingStates[m.id]
+                    ).length
+                  }
+                </Text>
+                <Text style={styles.summaryStatLabel}>Declining</Text>
+              </View>
             </View>
-            <Text style={styles.chartSubtitle}>
-              {loadingStates.gold || loadingStates.silver || loadingStates.platinum || loadingStates.palladium
-                ? 'Loading market data...'
-                : 'Percentage change over 24 hours'
-              }
+
+            {}
+            <View style={styles.chartContainer}>
+              <Text style={styles.chartTitle}>24h Trend</Text>
+              <View style={styles.chartBars}>
+                {metalPrices.map((metal, index) => (
+                  <View key={metal.id} style={styles.chartBarContainer}>
+                    <View style={styles.chartBar}>
+                      {loadingStates[metal.id] ? (
+                        <View style={styles.chartBar}>
+                          <View
+                            style={[
+                              styles.chartBarFill,
+                              { height: '20%', backgroundColor: '#e9ecef' },
+                            ]}
+                          />
+                        </View>
+                      ) : (
+                        <View
+                          style={[
+                            styles.chartBarFill,
+                            {
+                              height: `${Math.min(Math.max(Math.abs(metal.changePercent) * 2, 10), 70)}%`,
+                              backgroundColor:
+                                metal.change >= 0 ? '#4CAF50' : '#F44336',
+                            },
+                          ]}
+                        />
+                      )}
+                    </View>
+                    <Text style={styles.chartBarLabel}>{metal.symbol}</Text>
+                  </View>
+                ))}
+              </View>
+              <Text style={styles.chartSubtitle}>
+                {loadingStates.gold ||
+                loadingStates.silver ||
+                loadingStates.platinum ||
+                loadingStates.palladium
+                  ? 'Loading market data...'
+                  : 'Percentage change over 24 hours'}
+              </Text>
+            </View>
+          </View>
+
+          {}
+          <View style={styles.metalsContainer}>
+            {metalPrices.map(metal => (
+              <MetalCard
+                key={metal.id}
+                metal={metal}
+                isLoading={loadingStates[metal.id]}
+              />
+            ))}
+          </View>
+
+          {}
+          <View style={styles.footerInfo}>
+            <Text style={styles.footerText}>
+              Prices are updated every 30 seconds
+            </Text>
+            <Text style={styles.footerText}>
+              All prices shown are for 24 Carat purity
+            </Text>
+            <Text style={styles.footerText}>
+              Data sourced from live market feeds
             </Text>
           </View>
-        </View>
-
-        {/* Metal Cards */}
-        <View style={styles.metalsContainer}>
-          {metalPrices.map((metal) => (
-            <MetalCard
-              key={metal.id}
-              metal={metal}
-              isLoading={loadingStates[metal.id]}
-            />
-          ))}
-        </View>
-
-        {/* Footer Info */}
-        <View style={styles.footerInfo}>
-          <Text style={styles.footerText}>
-            Prices are updated every 30 seconds
-          </Text>
-          <Text style={styles.footerText}>
-            All prices shown are for 24 Carat purity
-          </Text>
-          <Text style={styles.footerText}>
-            Data sourced from live market feeds
-          </Text>
-        </View>
         </ScrollView>
       )}
 
-      {/* Floating Action Button */}
-      <Pressable
-        style={styles.fab}
-        onPress={onRefresh}
-      >
+      {}
+      <Pressable style={styles.fab} onPress={onRefresh}>
         <Ionicons name="refresh-outline" size={24} color="#ffffff" />
       </Pressable>
 
-      {/* Currency Sidebar */}
+      {}
       <CurrencySidebar
         isVisible={isSidebarVisible}
         onClose={() => setIsSidebarVisible(false)}

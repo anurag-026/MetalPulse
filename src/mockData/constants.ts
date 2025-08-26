@@ -1,7 +1,3 @@
-// Mock Constants - Centralized location for all constant values and configuration
-// This file contains all mock constants, configuration values, and static data
-
-// API Configuration Constants
 export const MOCK_API_CONFIG = {
   baseUrls: {
     goldApi: 'https://api.goldapi.io',
@@ -27,18 +23,17 @@ export const MOCK_API_CONFIG = {
     },
   },
   timeouts: {
-    request: 10000, // 10 seconds
-    connection: 5000, // 5 seconds
-    read: 15000, // 15 seconds
+    request: 10000,
+    connection: 5000,
+    read: 15000,
   },
   retryConfig: {
     maxRetries: 3,
-    retryDelay: 1000, // 1 second
+    retryDelay: 1000,
     backoffMultiplier: 2,
   },
 };
 
-// Currency Configuration Constants
 export const MOCK_CURRENCY_CONFIG = {
   supported: ['INR', 'USD', 'EUR', 'GBP', 'JPY', 'CNY', 'CAD', 'AUD'],
   primary: 'INR',
@@ -75,7 +70,6 @@ export const MOCK_CURRENCY_CONFIG = {
   },
 };
 
-// Metal Configuration Constants
 export const MOCK_METAL_CONFIG = {
   supported: ['gold', 'silver', 'platinum', 'palladium'],
   primary: 'gold',
@@ -84,7 +78,7 @@ export const MOCK_METAL_CONFIG = {
   purityLevels: [24, 22, 21, 20, 18, 16, 14, 10],
   defaultPurity: 24,
   density: {
-    gold: 19.32, // g/cm³
+    gold: 19.32,
     silver: 10.49,
     platinum: 21.45,
     palladium: 12.02,
@@ -97,11 +91,10 @@ export const MOCK_METAL_CONFIG = {
   },
 };
 
-// Time Configuration Constants
 export const MOCK_TIME_CONFIG = {
   timeframes: ['1D', '1W', '1M', '6M', '1Y', 'All'],
   defaultTimeframe: '1D',
-  refreshIntervals: [15, 30, 60, 300, 900], // seconds
+  refreshIntervals: [15, 30, 60, 300, 900],
   defaultRefreshInterval: 30,
   timezones: ['UTC', 'Asia/Kolkata', 'America/New_York', 'Europe/London'],
   defaultTimezone: 'Asia/Kolkata',
@@ -117,7 +110,6 @@ export const MOCK_TIME_CONFIG = {
   },
 };
 
-// UI Configuration Constants
 export const MOCK_UI_CONFIG = {
   themes: {
     light: {
@@ -202,7 +194,6 @@ export const MOCK_UI_CONFIG = {
   },
 };
 
-// Notification Configuration Constants
 export const MOCK_NOTIFICATION_CONFIG = {
   types: {
     success: {
@@ -233,12 +224,13 @@ export const MOCK_NOTIFICATION_CONFIG = {
   swipeEnabled: true,
 };
 
-// Error Configuration Constants
 export const MOCK_ERROR_CONFIG = {
   messages: {
-    networkError: 'Network connection error. Please check your internet connection.',
+    networkError:
+      'Network connection error. Please check your internet connection.',
     apiError: 'API service temporarily unavailable. Please try again later.',
-    rateLimitError: 'Rate limit exceeded. Please wait before making another request.',
+    rateLimitError:
+      'Rate limit exceeded. Please wait before making another request.',
     timeoutError: 'Request timed out. Please try again.',
     unknownError: 'An unexpected error occurred. Please try again.',
     noDataError: 'No data available for the requested information.',
@@ -246,18 +238,12 @@ export const MOCK_ERROR_CONFIG = {
     authenticationError: 'Authentication failed. Please log in again.',
     authorizationError: 'You do not have permission to access this resource.',
   },
-  retryable: [
-    'networkError',
-    'apiError',
-    'timeoutError',
-    'rateLimitError',
-  ],
+  retryable: ['networkError', 'apiError', 'timeoutError', 'rateLimitError'],
   userFriendly: true,
   logErrors: true,
   showStackTraces: false,
 };
 
-// Export functions for accessing mock constants
 export function getMockApiConfig() {
   return MOCK_API_CONFIG;
 }
@@ -286,7 +272,6 @@ export function getMockErrorConfig() {
   return MOCK_ERROR_CONFIG;
 }
 
-// Helper function to get specific configuration value
 export function getMockConfigValue(category: string, key: string) {
   const configs = {
     api: MOCK_API_CONFIG,
@@ -297,11 +282,11 @@ export function getMockConfigValue(category: string, key: string) {
     notification: MOCK_NOTIFICATION_CONFIG,
     error: MOCK_ERROR_CONFIG,
   };
-  
+
   const config = configs[category as keyof typeof configs];
   if (!config) {
     throw new Error(`Unknown configuration category: ${category}`);
   }
-  
+
   return (config as any)[key];
 }

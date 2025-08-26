@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "rn-onboarding",
-    "slug": "rn-onboarding",
+    "name": "metal-pulse",
+    "slug": "metal-pulse",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },

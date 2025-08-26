@@ -120,7 +120,7 @@ export function Onboarding() {
   };
 
   const onScroll = useAnimatedScrollHandler({
-    onScroll: (event) => {
+    onScroll: event => {
       x.value = event.contentOffset.x;
     },
   });
@@ -130,7 +130,7 @@ export function Onboarding() {
       <Animated.FlatList
         ref={flatListRef as any}
         data={data}
-        keyExtractor={(item) => String(item.id)}
+        keyExtractor={item => String(item.id)}
         renderItem={({ item, index }) => (
           <RenderItem index={index} item={item} x={x} />
         )}

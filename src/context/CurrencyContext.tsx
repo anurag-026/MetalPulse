@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useMemo, useState, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  ReactNode,
+} from 'react';
 import { getSupportedCurrencies as utilGetSupportedCurrencies } from '../utils/currencyUtils';
 
 export type CurrencyCode = string;
@@ -9,7 +15,9 @@ interface CurrencyContextType {
   supportedCurrencies: CurrencyCode[];
 }
 
-const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
+const CurrencyContext = createContext<CurrencyContextType | undefined>(
+  undefined
+);
 
 export const useCurrency = (): CurrencyContextType => {
   const ctx = useContext(CurrencyContext);
@@ -17,14 +25,23 @@ export const useCurrency = (): CurrencyContextType => {
   return ctx;
 };
 
-interface Props { children: ReactNode }
+interface Props {
+  children: ReactNode;
+}
 
 export const CurrencyProvider: React.FC<Props> = ({ children }) => {
   const [currency, setCurrency] = useState<CurrencyCode>('INR');
 
   const supportedCurrencies = useMemo(() => utilGetSupportedCurrencies(), []);
 
-  const value = useMemo(() => ({ currency, setCurrency, supportedCurrencies }), [currency, supportedCurrencies]);
+  const value = useMemo(
+    () => ({ currency, setCurrency, supportedCurrencies }),
+    [currency, supportedCurrencies]
+  );
 
-  return <CurrencyContext.Provider value={value}>{children}</CurrencyContext.Provider>;
+  return (
+    <CurrencyContext.Provider value={value}>
+      {children}
+    </CurrencyContext.Provider>
+  );
 };

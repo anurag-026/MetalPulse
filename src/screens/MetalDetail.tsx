@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,25 +8,25 @@ import {
   StatusBar,
   TouchableOpacity,
   Alert,
-} from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useNavigation } from "../context/NavigationContext";
-import { useCurrency } from "../context/CurrencyContext";
-import { getCurrencyIcon } from "../utils/currencyUtils";
-import { fetchMetalPrice, type MetalPriceData } from "../services/metalApi";
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '../context/NavigationContext';
+import { useCurrency } from '../context/CurrencyContext';
+import { getCurrencyIcon } from '../utils/currencyUtils';
+import { fetchMetalPrice, type MetalPriceData } from '../services/metalApi';
 import {
   generateMockMetalPrice,
   getChartTimeframes,
   getMetalUnits,
   getCaratOptions,
-} from "../mockData/metalData";
-import Toast from "react-native-toast-message";
+} from '../mockData/metalData';
+import Toast from 'react-native-toast-message';
 
-import { EmptyState } from "../components/EmptyState";
+import { EmptyState } from '../components/EmptyState';
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface MetalDetailProps {
   metal: {
@@ -54,9 +54,9 @@ export function MetalDetail({ metal }: MetalDetailProps) {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
 
-  const [selectedTimeframe, setSelectedTimeframe] = useState("1D");
+  const [selectedTimeframe, setSelectedTimeframe] = useState('1D');
   const { currency } = useCurrency();
-  const [selectedUnit, setSelectedUnit] = useState("oz");
+  const [selectedUnit, setSelectedUnit] = useState('oz');
   const [selectedCarat, setSelectedCarat] = useState(24);
   const [showCaratDropdown, setShowCaratDropdown] = useState(false);
   const [liveData, setLiveData] = useState<MetalPriceData | null>(null);
@@ -69,7 +69,6 @@ export function MetalDetail({ metal }: MetalDetailProps) {
 
   const caratOptions = getCaratOptions();
 
-  // Fetch live data when component mounts or currency changes
   useEffect(() => {
     fetchLiveData();
   }, [currency]);
@@ -84,29 +83,29 @@ export function MetalDetail({ metal }: MetalDetailProps) {
         setHasData(true);
       } else {
         if (
-          response.error?.includes("429") ||
-          response.error?.toLowerCase().includes("throttl")
+          response.error?.includes('429') ||
+          response.error?.toLowerCase().includes('throttl')
         ) {
           Toast.show({
-            type: "error",
-            text1: "Rate limit reached. Showing cached/mock data.",
-            position: "top",
+            type: 'error',
+            text1: 'Rate limit reached. Showing cached/mock data.',
+            position: 'top',
             visibilityTime: 4000,
           });
-        } else if (response.error?.toLowerCase().includes("no data")) {
+        } else if (response.error?.toLowerCase().includes('no data')) {
           Toast.show({
-            type: "error",
-            text1: "No data available for this pair/date.",
-            position: "top",
+            type: 'error',
+            text1: 'No data available for this pair/date.',
+            position: 'top',
             visibilityTime: 4000,
           });
         } else if (response.error) {
           setDataError(response.error);
           setHasData(false);
           Toast.show({
-            type: "error",
+            type: 'error',
             text1: response.error,
-            position: "top",
+            position: 'top',
             visibilityTime: 4000,
           });
         }
@@ -114,34 +113,33 @@ export function MetalDetail({ metal }: MetalDetailProps) {
         setLiveData(mockData);
       }
     } catch (error) {
-      console.error("Error fetching live data:", error);
-      setDataError("Failed to fetch data");
+      console.error('Error fetching live data:', error);
+      setDataError('Failed to fetch data');
       setHasData(false);
-      // Fallback to mock data on error
+
       Toast.show({
-        type: "error",
-        text1: "Error retrieving live data. Showing mock data.",
-        position: "top",
+        type: 'error',
+        text1: 'Error retrieving live data. Showing mock data.',
+        position: 'top',
         visibilityTime: 4000,
       });
       const mockData = generateMockMetalPrice(metal.id);
       setLiveData(mockData);
-      setHasData(true); // Mock data is still data
+      setHasData(true);
     } finally {
       setIsLoading(false);
     }
   };
 
   const getCaratPrice = (carat: number) => {
-    const caratOption = caratOptions.find((option) => option.value === carat);
+    const caratOption = caratOptions.find(option => option.value === carat);
     if (caratOption) {
       const currentPrice = liveData?.price || metal.price;
       return (currentPrice / 31.1035) * caratOption.purity;
     }
-    return (liveData?.price || metal.price) / 31.1035; // Default to 24K if not found
+    return (liveData?.price || metal.price) / 31.1035;
   };
 
-  // Use live data when available, fallback to props
   const currentMetal = liveData
     ? {
         ...metal,
@@ -158,7 +156,6 @@ export function MetalDetail({ metal }: MetalDetailProps) {
       }
     : metal;
 
-  // Market data with real values when available
   const marketData = {
     prevClose:
       currentMetal.prevClose || currentMetal.price - currentMetal.change,
@@ -166,10 +163,10 @@ export function MetalDetail({ metal }: MetalDetailProps) {
       currentMetal.open || currentMetal.price - currentMetal.change * 0.8,
     high: currentMetal.high || currentMetal.price + currentMetal.change * 1.2,
     low: currentMetal.low || currentMetal.price - currentMetal.change * 0.8,
-    volume: "2.5M",
-    marketCap: "$12.5T",
-    volatility: "Medium",
-    yearlyReturn: "+15.2%",
+    volume: '2.5M',
+    marketCap: '$12.5T',
+    volatility: 'Medium',
+    yearlyReturn: '+15.2%',
     allTimeHigh: currentMetal.price * 1.3,
     allTimeLow: currentMetal.price * 0.7,
     bid: currentMetal.bid || currentMetal.price - 0.5,
@@ -177,20 +174,20 @@ export function MetalDetail({ metal }: MetalDetailProps) {
   };
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
       currency: currency,
       minimumFractionDigits: 2,
     }).format(price);
   };
 
   const formatChange = (change: number) => {
-    const sign = change >= 0 ? "+" : "";
+    const sign = change >= 0 ? '+' : '';
     return `${sign}${formatPrice(change)}`;
   };
 
   const formatChangePercent = (changePercent: number) => {
-    const sign = changePercent >= 0 ? "+" : "";
+    const sign = changePercent >= 0 ? '+' : '';
     return `${sign}${changePercent.toFixed(2)}%`;
   };
 
@@ -220,7 +217,7 @@ export function MetalDetail({ metal }: MetalDetailProps) {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1a1a2e" />
 
-      {/* Fixed Header with Proper Alignment */}
+      {}
       {isLoading ? (
         <View style={styles.loadingHeader}>
           <Text style={styles.loadingText}>Loading...</Text>
@@ -231,7 +228,7 @@ export function MetalDetail({ metal }: MetalDetailProps) {
             colors={metal.gradientColors}
             style={styles.headerGradient}
           >
-            {/* Header Top Row - Fixed Alignment */}
+            {}
             <View style={styles.headerTop}>
               <TouchableOpacity
                 style={styles.backButton}
@@ -258,25 +255,25 @@ export function MetalDetail({ metal }: MetalDetailProps) {
                 disabled={isLoading}
               >
                 <Ionicons
-                  name={isLoading ? "sync" : "refresh-outline"}
+                  name={isLoading ? 'sync' : 'refresh-outline'}
                   size={24}
                   color="#fff"
                 />
               </TouchableOpacity>
             </View>
 
-            {/* Price Display - Fixed Spacing */}
+            {}
             <View style={styles.priceDisplay}>
               <Text style={styles.priceLabel}>Current Price</Text>
               <Text style={styles.priceValue}>
                 {formatPrice(currentMetal.price)}
               </Text>
 
-              {/* Timestamp - Fixed Position */}
+              {}
               <Text style={styles.timestamp}>
-                {currentMetal.timestamp.toLocaleTimeString("en-US", {
-                  hour: "2-digit",
-                  minute: "2-digit",
+                {currentMetal.timestamp.toLocaleTimeString('en-US', {
+                  hour: '2-digit',
+                  minute: '2-digit',
                   hour12: true,
                 })}
               </Text>
@@ -285,7 +282,7 @@ export function MetalDetail({ metal }: MetalDetailProps) {
         </View>
       )}
 
-      {/* Content with Proper Spacing */}
+      {}
       <ScrollView
         style={styles.content}
         contentContainerStyle={styles.contentContainer}
@@ -297,35 +294,10 @@ export function MetalDetail({ metal }: MetalDetailProps) {
           </View>
         ) : (
           <>
-            {/* Unit Toggle - Fixed Spacing */}
-            {/* <View style={styles.toggleContainer}>
-              <View style={styles.toggleGroup}>
-                <Text style={styles.toggleLabel}>Unit</Text>
-                <View style={styles.toggleButtons}>
-                  {units.map((unit) => (
-                    <TouchableOpacity
-                      key={unit}
-                      style={[
-                        styles.toggleButton,
-                        selectedUnit === unit && styles.toggleButtonActive,
-                      ]}
-                      onPress={() => setSelectedUnit(unit)}
-                    >
-                      <Text
-                        style={[
-                          styles.toggleButtonText,
-                          selectedUnit === unit && styles.toggleButtonTextActive,
-                        ]}
-                      >
-                        {unit}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              </View>
-            </View> */}
+            {}
+            {}
 
-            {/* Price Change Section - Moved from Header */}
+            {}
             <View style={styles.priceChangeSection}>
               <View style={styles.priceChangeHeader}>
                 <Text style={styles.priceChangeTitle}>Price Change</Text>
@@ -335,16 +307,16 @@ export function MetalDetail({ metal }: MetalDetailProps) {
                 <View style={styles.priceChangeMain}>
                   <Ionicons
                     name={
-                      currentMetal.change >= 0 ? "trending-up" : "trending-down"
+                      currentMetal.change >= 0 ? 'trending-up' : 'trending-down'
                     }
                     size={20}
-                    color={currentMetal.change >= 0 ? "#4CAF50" : "#F44336"}
+                    color={currentMetal.change >= 0 ? '#4CAF50' : '#F44336'}
                   />
                   <Text
                     style={[
                       styles.priceChangeValue,
                       {
-                        color: currentMetal.change >= 0 ? "#4CAF50" : "#F44336",
+                        color: currentMetal.change >= 0 ? '#4CAF50' : '#F44336',
                       },
                     ]}
                   >
@@ -354,7 +326,7 @@ export function MetalDetail({ metal }: MetalDetailProps) {
                     style={[
                       styles.priceChangePercent,
                       {
-                        color: currentMetal.change >= 0 ? "#4CAF50" : "#F44336",
+                        color: currentMetal.change >= 0 ? '#4CAF50' : '#F44336',
                       },
                     ]}
                   >
@@ -364,7 +336,7 @@ export function MetalDetail({ metal }: MetalDetailProps) {
               </View>
             </View>
 
-            {/* Carat Pricing Section */}
+            {}
             <View style={styles.caratSection}>
               <Text style={styles.sectionTitle}>Carat Pricing (per gram)</Text>
               <View style={styles.caratContent}>
@@ -377,7 +349,7 @@ export function MetalDetail({ metal }: MetalDetailProps) {
                       {selectedCarat}K
                     </Text>
                     <Ionicons
-                      name={showCaratDropdown ? "chevron-up" : "chevron-down"}
+                      name={showCaratDropdown ? 'chevron-up' : 'chevron-down'}
                       size={16}
                       color="#666"
                     />
@@ -385,7 +357,7 @@ export function MetalDetail({ metal }: MetalDetailProps) {
                   {showCaratDropdown && (
                     <View style={styles.dropdownMenu}>
                       <View style={styles.dropdownScrollContainer}>
-                        {caratOptions.map((carat) => (
+                        {caratOptions.map(carat => (
                           <TouchableOpacity
                             style={styles.dropdownItem}
                             onPress={() => {
@@ -411,12 +383,12 @@ export function MetalDetail({ metal }: MetalDetailProps) {
               </View>
             </View>
 
-            {/* Price Chart Section - Fixed Layout */}
+            {}
             <View style={styles.chartSection}>
               <View style={styles.sectionHeader}>
                 <Text style={styles.sectionTitle}>Price Chart</Text>
                 <View style={styles.timeframeButtons}>
-                  {timeframes.map((timeframe) => (
+                  {timeframes.map(timeframe => (
                     <TouchableOpacity
                       style={[
                         styles.timeframeButton,
@@ -439,7 +411,7 @@ export function MetalDetail({ metal }: MetalDetailProps) {
                 </View>
               </View>
 
-              {/* Chart Placeholder - Fixed Dimensions */}
+              {}
               <View style={styles.chartContainer}>
                 <View style={styles.chartPlaceholder}>
                   <Ionicons
@@ -456,7 +428,7 @@ export function MetalDetail({ metal }: MetalDetailProps) {
                 </View>
               </View>
 
-              {/* Chart Stats - Fixed Alignment */}
+              {}
               <View style={styles.chartStats}>
                 <View style={styles.chartStat}>
                   <Text style={styles.chartStatLabel}>High</Text>
@@ -477,7 +449,7 @@ export function MetalDetail({ metal }: MetalDetailProps) {
               </View>
             </View>
 
-            {/* Market Data Section - Fixed Grid */}
+            {}
             <View style={styles.marketDataSection}>
               <Text style={styles.sectionTitle}>Market Data</Text>
               <View style={styles.marketDataGrid}>
@@ -520,7 +492,7 @@ export function MetalDetail({ metal }: MetalDetailProps) {
               </View>
             </View>
 
-            {/* Performance Section - Fixed Layout */}
+            {}
             <View style={styles.performanceSection}>
               <Text style={styles.sectionTitle}>Performance & Insights</Text>
               <View style={styles.performanceGrid}>
@@ -531,7 +503,7 @@ export function MetalDetail({ metal }: MetalDetailProps) {
                   <View style={styles.performanceContent}>
                     <Text style={styles.performanceLabel}>Yearly Return</Text>
                     <Text
-                      style={[styles.performanceValue, { color: "#4CAF50" }]}
+                      style={[styles.performanceValue, { color: '#4CAF50' }]}
                     >
                       {marketData.yearlyReturn}
                     </Text>
@@ -571,10 +543,10 @@ export function MetalDetail({ metal }: MetalDetailProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: '#f8f9fa',
   },
   header: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
@@ -590,9 +562,9 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 30,
   },
   headerTop: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 40,
     paddingHorizontal: 10,
     paddingTop: 5,
@@ -601,98 +573,98 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "rgba(255, 255, 255, 0.25)",
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 4,
     elevation: 3,
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.3)",
+    borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   headerTitleContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
   },
   headerTitle: {
     fontSize: 28,
-    fontWeight: "bold",
-    color: "#fff",
+    fontWeight: 'bold',
+    color: '#fff',
     marginBottom: 8,
-    textAlign: "center",
+    textAlign: 'center',
   },
   headerSymbol: {
     fontSize: 18,
-    color: "rgba(255, 255, 255, 0.9)",
-    fontWeight: "600",
-    textAlign: "center",
+    color: 'rgba(255, 255, 255, 0.9)',
+    fontWeight: '600',
+    textAlign: 'center',
   },
   shareButton: {
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "rgba(255, 255, 255, 0.25)",
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 4,
     elevation: 3,
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.3)",
+    borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   refreshButton: {
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "rgba(255, 255, 255, 0.25)",
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 4,
     elevation: 3,
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.3)",
+    borderColor: 'rgba(255, 255, 255, 0.3)',
     marginLeft: 12,
   },
   refreshButtonLoading: {
-    backgroundColor: "rgba(255, 215, 0, 0.4)",
-    borderColor: "rgba(255, 215, 0, 0.6)",
+    backgroundColor: 'rgba(255, 215, 0, 0.4)',
+    borderColor: 'rgba(255, 215, 0, 0.6)',
   },
   priceDisplay: {
-    alignItems: "center",
+    alignItems: 'center',
     paddingHorizontal: 20,
   },
   priceLabel: {
     fontSize: 16,
-    color: "rgba(255, 255, 255, 0.8)",
+    color: 'rgba(255, 255, 255, 0.8)',
     marginBottom: 12,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   priceValue: {
     fontSize: 42,
-    fontWeight: "bold",
-    color: "#fff",
+    fontWeight: 'bold',
+    color: '#fff',
     marginBottom: 16,
-    textAlign: "center",
+    textAlign: 'center',
   },
 
   timestamp: {
     fontSize: 14,
-    color: "rgba(255, 255, 255, 0.9)",
-    textAlign: "center",
-    fontWeight: "500",
-    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    color: 'rgba(255, 255, 255, 0.9)',
+    textAlign: 'center',
+    fontWeight: '500',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
+    borderColor: 'rgba(255, 255, 255, 0.2)',
   },
   content: {
     flex: 1,
@@ -701,57 +673,57 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: 20,
     paddingBottom: 100,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: '#f8f9fa',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     marginTop: -30,
     paddingTop: 50,
   },
   toggleContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 24,
     padding: 28,
     marginBottom: 24,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.12,
     shadowRadius: 12,
     elevation: 6,
     borderWidth: 1,
-    borderColor: "rgba(0, 0, 0, 0.05)",
+    borderColor: 'rgba(0, 0, 0, 0.05)',
   },
   toggleGroup: {
     marginBottom: 24,
   },
   toggleLabel: {
     fontSize: 16,
-    fontWeight: "600",
-    color: "#1a1a2e",
+    fontWeight: '600',
+    color: '#1a1a2e',
     marginBottom: 16,
   },
   toggleButtons: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 12,
   },
   toggleButton: {
     paddingHorizontal: 22,
     paddingVertical: 14,
     borderRadius: 26,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: '#f8f9fa',
     borderWidth: 1.5,
-    borderColor: "#e9ecef",
+    borderColor: '#e9ecef',
     minWidth: 65,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
     elevation: 1,
   },
   toggleButtonActive: {
-    backgroundColor: "#FFD700",
-    borderColor: "#FFD700",
-    shadowColor: "#FFD700",
+    backgroundColor: '#FFD700',
+    borderColor: '#FFD700',
+    shadowColor: '#FFD700',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
@@ -759,184 +731,184 @@ const styles = StyleSheet.create({
   },
   toggleButtonText: {
     fontSize: 14,
-    fontWeight: "600",
-    color: "#666",
+    fontWeight: '600',
+    color: '#666',
   },
   toggleButtonTextActive: {
-    color: "#1a1a2e",
-    fontWeight: "700",
+    color: '#1a1a2e',
+    fontWeight: '700',
   },
   chartSection: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 24,
     padding: 28,
     marginBottom: 24,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.12,
     shadowRadius: 12,
     elevation: 6,
     borderWidth: 1,
-    borderColor: "rgba(0, 0, 0, 0.05)",
+    borderColor: 'rgba(0, 0, 0, 0.05)',
   },
   sectionHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 24,
   },
   sectionTitle: {
     fontSize: 22,
-    fontWeight: "bold",
-    color: "#1a1a2e",
+    fontWeight: 'bold',
+    color: '#1a1a2e',
   },
   timeframeButtons: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 8,
   },
   timeframeButton: {
     paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 18,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: '#f8f9fa',
     borderWidth: 1,
-    borderColor: "#e9ecef",
+    borderColor: '#e9ecef',
     minWidth: 50,
-    alignItems: "center",
+    alignItems: 'center',
   },
   timeframeButtonActive: {
-    backgroundColor: "#FFD700",
-    borderColor: "#FFD700",
+    backgroundColor: '#FFD700',
+    borderColor: '#FFD700',
   },
   timeframeButtonText: {
     fontSize: 12,
-    fontWeight: "600",
-    color: "#666",
+    fontWeight: '600',
+    color: '#666',
   },
   timeframeButtonTextActive: {
-    color: "#1a1a2e",
-    fontWeight: "700",
+    color: '#1a1a2e',
+    fontWeight: '700',
   },
   chartContainer: {
     height: 220,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: '#f8f9fa',
     borderRadius: 20,
     marginBottom: 24,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 1.5,
-    borderColor: "#e9ecef",
-    shadowColor: "#000",
+    borderColor: '#e9ecef',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 6,
     elevation: 2,
   },
   chartPlaceholder: {
-    alignItems: "center",
+    alignItems: 'center',
     padding: 20,
   },
   chartPlaceholderText: {
     fontSize: 18,
-    fontWeight: "600",
-    color: "#1a1a2e",
+    fontWeight: '600',
+    color: '#1a1a2e',
     marginTop: 16,
-    textAlign: "center",
+    textAlign: 'center',
   },
   chartPlaceholderSubtext: {
     fontSize: 14,
-    color: "#666",
+    color: '#666',
     marginTop: 8,
-    textAlign: "center",
+    textAlign: 'center',
   },
   chartStats: {
-    flexDirection: "row",
-    justifyContent: "space-around",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     paddingHorizontal: 20,
   },
   chartStat: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
   },
   chartStatLabel: {
     fontSize: 12,
-    color: "#666",
+    color: '#666',
     marginBottom: 8,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   chartStatValue: {
     fontSize: 16,
-    fontWeight: "600",
-    color: "#1a1a2e",
-    textAlign: "center",
+    fontWeight: '600',
+    color: '#1a1a2e',
+    textAlign: 'center',
   },
   marketDataSection: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 24,
     padding: 28,
     marginBottom: 24,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.12,
     shadowRadius: 12,
     elevation: 6,
     borderWidth: 1,
-    borderColor: "rgba(0, 0, 0, 0.05)",
+    borderColor: 'rgba(0, 0, 0, 0.05)',
   },
   marketDataGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   marketDataItem: {
-    width: "48%",
+    width: '48%',
     minHeight: 70,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: '#f8f9fa',
     padding: 16,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: "#e9ecef",
+    borderColor: '#e9ecef',
     marginBottom: 16,
   },
   marketDataLabel: {
     fontSize: 13,
-    color: "#666",
+    color: '#666',
     marginBottom: 8,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   marketDataValue: {
     fontSize: 18,
-    fontWeight: "600",
-    color: "#1a1a2e",
+    fontWeight: '600',
+    color: '#1a1a2e',
   },
   performanceSection: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 24,
     padding: 28,
     marginBottom: 24,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.12,
     shadowRadius: 12,
     elevation: 6,
     borderWidth: 1,
-    borderColor: "rgba(0, 0, 0, 0.05)",
+    borderColor: 'rgba(0, 0, 0, 0.05)',
   },
   performanceGrid: {
     gap: 20,
   },
   performanceItem: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 8,
   },
   performanceIcon: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: "rgba(255, 215, 0, 0.1)",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: 'rgba(255, 215, 0, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginRight: 20,
   },
   performanceContent: {
@@ -944,123 +916,123 @@ const styles = StyleSheet.create({
   },
   performanceLabel: {
     fontSize: 15,
-    color: "#666",
+    color: '#666',
     marginBottom: 6,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   performanceValue: {
     fontSize: 20,
-    fontWeight: "600",
-    color: "#1a1a2e",
+    fontWeight: '600',
+    color: '#1a1a2e',
   },
   priceChangeSection: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 24,
     padding: 28,
     marginBottom: 24,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.12,
     shadowRadius: 12,
     elevation: 6,
     borderWidth: 1,
-    borderColor: "rgba(0, 0, 0, 0.05)",
+    borderColor: 'rgba(0, 0, 0, 0.05)',
   },
   priceChangeHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 20,
   },
   priceChangeTitle: {
     fontSize: 20,
-    fontWeight: "bold",
-    color: "#1a1a2e",
+    fontWeight: 'bold',
+    color: '#1a1a2e',
   },
   priceChangeTime: {
     fontSize: 14,
-    color: "#666",
-    backgroundColor: "#f8f9fa",
+    color: '#666',
+    backgroundColor: '#f8f9fa',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 16,
   },
   priceChangeContent: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   priceChangeMain: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f8f9fa",
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f8f9fa',
     paddingHorizontal: 24,
     paddingVertical: 16,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: "#e9ecef",
+    borderColor: '#e9ecef',
   },
   priceChangeValue: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginLeft: 12,
     marginRight: 8,
   },
   priceChangePercent: {
     fontSize: 18,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   caratSection: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 24,
     padding: 28,
     marginBottom: 24,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.12,
     shadowRadius: 12,
     elevation: 6,
     borderWidth: 1,
-    borderColor: "rgba(0, 0, 0, 0.05)",
+    borderColor: 'rgba(0, 0, 0, 0.05)',
     zIndex: 99999,
   },
   caratContent: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: 24,
   },
   caratDropdown: {
-    position: "relative",
+    position: 'relative',
     zIndex: 99999,
     flex: 1,
     marginRight: 20,
   },
   dropdownButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f8f9fa",
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f8f9fa',
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: "#e9ecef",
+    borderColor: '#e9ecef',
     minWidth: 80,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   dropdownButtonText: {
     fontSize: 16,
-    fontWeight: "600",
-    color: "#1a1a2e",
+    fontWeight: '600',
+    color: '#1a1a2e',
   },
   dropdownMenu: {
-    position: "absolute",
-    top: "100%",
+    position: 'absolute',
+    top: '100%',
     left: 0,
     right: 0,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#e9ecef",
-    shadowColor: "#000",
+    borderColor: '#e9ecef',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15,
     shadowRadius: 8,
@@ -1068,7 +1040,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     zIndex: 99999,
     maxHeight: 200,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   dropdownScrollContainer: {
     maxHeight: 200,
@@ -1077,49 +1049,49 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#f8f9fa",
-    backgroundColor: "#fff",
+    borderBottomColor: '#f8f9fa',
+    backgroundColor: '#fff',
   },
   dropdownItemText: {
     fontSize: 14,
-    fontWeight: "500",
-    color: "#1a1a2e",
-    textAlign: "left",
+    fontWeight: '500',
+    color: '#1a1a2e',
+    textAlign: 'left',
   },
 
   caratPriceDisplay: {
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
     flex: 1,
   },
   caratPriceLabel: {
     fontSize: 14,
-    color: "#666",
+    color: '#666',
     marginBottom: 8,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   caratPriceValue: {
     fontSize: 32,
-    fontWeight: "bold",
-    color: "#FFD700",
+    fontWeight: 'bold',
+    color: '#FFD700',
   },
 
   loadingHeader: {
     height: 200,
-    backgroundColor: "#1a1a2e",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#1a1a2e',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
   },
   loadingContent: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 40,
   },
   loadingText: {
     fontSize: 18,
-    color: "#ffffff",
-    fontWeight: "500",
+    color: '#ffffff',
+    fontWeight: '500',
   },
 });

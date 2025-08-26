@@ -1,9 +1,5 @@
-// Mock Metal Data - Centralized location for all metal mock data
-// This file contains all mock data related to metals, prices, and market information
-
 import { MetalPriceDTO } from '../models/MetalModels';
 
-// Base metal information
 export const MOCK_METAL_INFO = {
   gold: {
     id: 'gold',
@@ -51,10 +47,8 @@ export const MOCK_METAL_INFO = {
   },
 };
 
-// Supported metals list
 export const SUPPORTED_METALS = Object.keys(MOCK_METAL_INFO);
 
-// Metal symbols mapping for different APIs
 export const METAL_SYMBOLS = {
   gold: { goldApi: 'XAU', metalsDev: 'gold' },
   silver: { goldApi: 'XAG', metalsDev: 'silver' },
@@ -62,7 +56,6 @@ export const METAL_SYMBOLS = {
   palladium: { goldApi: 'XPD', metalsDev: 'palladium' },
 };
 
-// Carat options for pricing
 export const CARAT_OPTIONS = [
   { value: 24, purity: 1.0, name: '24K' },
   { value: 22, purity: 0.916, name: '22K' },
@@ -74,47 +67,38 @@ export const CARAT_OPTIONS = [
   { value: 10, purity: 0.417, name: '10K' },
 ];
 
-// Units for metal pricing
 export const METAL_UNITS = ['oz', 'g', 'kg'];
 
-// Timeframes for charts
 export const CHART_TIMEFRAMES = ['1D', '1W', '1M', '6M', '1Y', 'All'];
 
-/**
- * Generate realistic mock metal price data
- * @param metalId - The metal identifier
- * @param currency - The currency code (default: INR)
- * @returns MetalPriceDTO with realistic mock data
- */
-export function generateMockMetalPrice(metalId: string, currency: string = 'INR'): MetalPriceDTO {
+export function generateMockMetalPrice(
+  metalId: string,
+  currency: string = 'INR'
+): MetalPriceDTO {
   const metalInfo = MOCK_METAL_INFO[metalId as keyof typeof MOCK_METAL_INFO];
-  
+
   if (!metalInfo) {
     throw new Error(`Unsupported metal: ${metalId}`);
   }
 
-  // Generate realistic price with some randomness
   const basePrice = metalInfo.basePrice;
   const priceRange = metalInfo.priceRange;
   const volatility = metalInfo.volatility;
-  
-  // Add some realistic price variation
-  const randomFactor = 0.8 + (Math.random() * 0.4); // 0.8 to 1.2
-  const price = (basePrice * randomFactor) + (Math.random() - 0.5) * priceRange;
-  
-  // Generate realistic price change
+
+  const randomFactor = 0.8 + Math.random() * 0.4;
+  const price = basePrice * randomFactor + (Math.random() - 0.5) * priceRange;
+
   const maxChange = price * volatility;
-  const change = (Math.random() - 0.5) * maxChange * 2; // -maxChange to +maxChange
+  const change = (Math.random() - 0.5) * maxChange * 2;
   const changePercent = (change / price) * 100;
-  
-  // Generate additional market data
+
   const bid = price - (Math.random() * 2 + 0.5);
   const ask = price + (Math.random() * 2 + 0.5);
   const high = price + Math.abs(change) * 1.2;
   const low = price - Math.abs(change) * 0.8;
   const open = price - change * 0.8;
   const prevClose = price - change;
-  
+
   return new MetalPriceDTO(
     metalId,
     metalInfo.name,
@@ -133,14 +117,11 @@ export function generateMockMetalPrice(metalId: string, currency: string = 'INR'
   );
 }
 
-/**
- * Generate mock data for all supported metals
- * @param currency - The currency code (default: INR)
- * @returns Record of metal ID to mock data
- */
-export function generateAllMockMetalPrices(currency: string = 'INR'): Record<string, MetalPriceDTO> {
+export function generateAllMockMetalPrices(
+  currency: string = 'INR'
+): Record<string, MetalPriceDTO> {
   const results: Record<string, MetalPriceDTO> = {};
-  
+
   SUPPORTED_METALS.forEach(metalId => {
     try {
       results[metalId] = generateMockMetalPrice(metalId, currency);
@@ -148,81 +129,42 @@ export function generateAllMockMetalPrices(currency: string = 'INR'): Record<str
       console.warn(`Failed to generate mock data for ${metalId}:`, error);
     }
   });
-  
+
   return results;
 }
 
-/**
- * Get mock metal information
- * @param metalId - The metal identifier
- * @returns Metal information object
- */
 export function getMockMetalInfo(metalId: string) {
   return MOCK_METAL_INFO[metalId as keyof typeof MOCK_METAL_INFO];
 }
 
-/**
- * Get all supported metal IDs
- * @returns Array of supported metal IDs
- */
 export function getSupportedMetalIds(): string[] {
   return SUPPORTED_METALS;
 }
 
-/**
- * Get metal symbols for API calls
- * @param metalId - The metal identifier
- * @returns Object with API-specific symbols
- */
 export function getMetalSymbols(metalId: string) {
   return METAL_SYMBOLS[metalId as keyof typeof METAL_SYMBOLS];
 }
 
-/**
- * Get carat options
- * @returns Array of carat options
- */
 export function getCaratOptions() {
   return CARAT_OPTIONS;
 }
 
-/**
- * Get metal units
- * @returns Array of metal units
- */
 export function getMetalUnits() {
   return METAL_UNITS;
 }
 
-/**
- * Get chart timeframes
- * @returns Array of chart timeframes
- */
 export function getChartTimeframes() {
   return CHART_TIMEFRAMES;
 }
 
-/**
- * Check if mock data is available for a specific metal
- * @param metalId - The metal identifier
- * @returns boolean indicating if mock data is available
- */
 export function isMockDataAvailable(metalId: string): boolean {
   return metalId in MOCK_METAL_INFO;
 }
 
-/**
- * Get available mock metals count
- * @returns number of available mock metals
- */
 export function getAvailableMockMetalsCount(): number {
   return SUPPORTED_METALS.length;
 }
 
-/**
- * Check if any mock data is available
- * @returns boolean indicating if any mock data is available
- */
 export function hasAnyMockData(): boolean {
   return SUPPORTED_METALS.length > 0;
 }

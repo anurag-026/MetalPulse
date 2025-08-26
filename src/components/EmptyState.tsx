@@ -26,15 +26,37 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   const getIcon = () => {
     switch (type) {
       case 'no-data':
-        return <MaterialCommunityIcons name="database-off" size={80} color="#FFD700" />;
+        return (
+          <MaterialCommunityIcons
+            name="database-off"
+            size={80}
+            color="#FFD700"
+          />
+        );
       case 'no-connection':
-        return <MaterialCommunityIcons name="wifi-off" size={80} color="#FFD700" />;
+        return (
+          <MaterialCommunityIcons name="wifi-off" size={80} color="#FFD700" />
+        );
       case 'error':
-        return <MaterialCommunityIcons name="alert-circle-outline" size={80} color="#F44336" />;
+        return (
+          <MaterialCommunityIcons
+            name="alert-circle-outline"
+            size={80}
+            color="#F44336"
+          />
+        );
       case 'empty-results':
-        return <MaterialCommunityIcons name="magnify" size={80} color="#FFD700" />;
+        return (
+          <MaterialCommunityIcons name="magnify" size={80} color="#FFD700" />
+        );
       default:
-        return <MaterialCommunityIcons name="help-circle-outline" size={80} color="#FFD700" />;
+        return (
+          <MaterialCommunityIcons
+            name="help-circle-outline"
+            size={80}
+            color="#FFD700"
+          />
+        );
     }
   };
 
@@ -51,35 +73,31 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={getBackgroundColors()}
-        style={styles.content}
-      >
-        <View style={styles.iconContainer}>
-          {getIcon()}
-        </View>
-        
+      <LinearGradient colors={getBackgroundColors()} style={styles.content}>
+        <View style={styles.iconContainer}>{getIcon()}</View>
+
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.message}>{message}</Text>
-        
+
         {actionText && onAction && (
           <TouchableOpacity style={styles.actionButton} onPress={onAction}>
             <Text style={styles.actionButtonText}>{actionText}</Text>
             <Ionicons name="arrow-forward" size={20} color="#ffffff" />
           </TouchableOpacity>
         )}
-        
+
         {showRetry && onRetry && (
           <TouchableOpacity style={styles.retryButton} onPress={onRetry}>
             <MaterialCommunityIcons name="refresh" size={20} color="#FFD700" />
             <Text style={styles.retryButtonText}>Retry</Text>
           </TouchableOpacity>
         )}
-        
+
         <View style={styles.footer}>
           <Text style={styles.footerText}>
             {type === 'no-data' && 'Try refreshing or check your connection'}
-            {type === 'no-connection' && 'Check your internet connection and try again'}
+            {type === 'no-connection' &&
+              'Check your internet connection and try again'}
             {type === 'error' && 'Something went wrong. Please try again later'}
             {type === 'empty-results' && 'No results found for your search'}
           </Text>

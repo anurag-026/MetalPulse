@@ -8,7 +8,10 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Onboarding } from './src/screens/Onboarding';
 import { Home } from './src/screens/Home';
 import { MetalDetail } from './src/screens/MetalDetail';
-import { NavigationProvider, useNavigation } from './src/context/NavigationContext';
+import {
+  NavigationProvider,
+  useNavigation,
+} from './src/context/NavigationContext';
 import { CurrencyProvider } from './src/context/CurrencyContext';
 
 function AppContent() {
@@ -19,7 +22,9 @@ function AppContent() {
       <StatusBar style="auto" />
       {currentScreen === 'onboarding' && <Onboarding />}
       {currentScreen === 'home' && <Home />}
-      {currentScreen === 'metalDetail' && selectedMetal && <MetalDetail metal={selectedMetal} />}
+      {currentScreen === 'metalDetail' && selectedMetal && (
+        <MetalDetail metal={selectedMetal} />
+      )}
     </SafeAreaView>
   );
 }

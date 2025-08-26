@@ -1,9 +1,11 @@
-// Price Display Component - Shows prices with currency icons
-// Primary focus on INR (Indian Rupee) display
-
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { formatPrice, formatPriceForUI, getCurrencyIcon, isPrimaryCurrency } from '../utils/currencyUtils';
+import {
+  formatPrice,
+  formatPriceForUI,
+  getCurrencyIcon,
+  isPrimaryCurrency,
+} from '../utils/currencyUtils';
 
 interface PriceDisplayProps {
   amount: number;
@@ -28,8 +30,7 @@ export const PriceDisplay: React.FC<PriceDisplayProps> = ({
 }) => {
   const currencyInfo = formatPriceForUI(amount, currency);
   const isPrimary = isPrimaryCurrency(currency);
-  
-  // Size-based text styles
+
   const getTextStyle = () => {
     switch (size) {
       case 'small':
@@ -41,15 +42,22 @@ export const PriceDisplay: React.FC<PriceDisplayProps> = ({
     }
   };
 
-  // Format amount based on size preference
-  const displayAmount = formatLarge 
-    ? formatLarge ? `${(amount / 1000).toFixed(1)}K` : amount.toFixed(2)
+  const displayAmount = formatLarge
+    ? formatLarge
+      ? `${(amount / 1000).toFixed(1)}K`
+      : amount.toFixed(2)
     : amount.toFixed(2);
 
   return (
     <View style={[styles.container, style]}>
       {showIcon && (
-        <Text style={[getTextStyle(), styles.icon, { color: color || (isPrimary ? '#FF6B35' : '#333') }]}>
+        <Text
+          style={[
+            getTextStyle(),
+            styles.icon,
+            { color: color || (isPrimary ? '#FF6B35' : '#333') },
+          ]}
+        >
           {currencyInfo.icon}
         </Text>
       )}
@@ -57,7 +65,13 @@ export const PriceDisplay: React.FC<PriceDisplayProps> = ({
         {displayAmount}
       </Text>
       {showCurrencyCode && (
-        <Text style={[getTextStyle(), styles.currencyCode, { color: color || '#666' }]}>
+        <Text
+          style={[
+            getTextStyle(),
+            styles.currencyCode,
+            { color: color || '#666' },
+          ]}
+        >
           {` ${currencyInfo.code}`}
         </Text>
       )}
@@ -65,7 +79,6 @@ export const PriceDisplay: React.FC<PriceDisplayProps> = ({
   );
 };
 
-// Price with change indicator
 interface PriceWithChangeProps extends PriceDisplayProps {
   change?: number;
   changePercent?: number;
@@ -94,11 +107,12 @@ export const PriceWithChange: React.FC<PriceWithChangeProps> = ({
         color={color}
         showIcon={true}
       />
-      
+
       {showChange && (change !== 0 || changePercent !== 0) && (
         <View style={styles.changeContainer}>
           <Text style={[getChangeTextStyle(size), { color: changeColor }]}>
-            {isPositive ? '+' : ''}{change.toFixed(2)}
+            {isPositive ? '+' : ''}
+            {change.toFixed(2)}
           </Text>
           <Text style={[getChangeTextStyle(size), { color: changeColor }]}>
             {` (${isPositive ? '+' : ''}${changePercent.toFixed(2)}%)`}
@@ -121,7 +135,6 @@ const getChangeTextStyle = (size: 'small' | 'medium' | 'large') => {
   }
 };
 
-// Compact price display for lists
 export const CompactPriceDisplay: React.FC<PriceDisplayProps> = ({
   amount,
   currency = 'INR',
@@ -139,7 +152,6 @@ export const CompactPriceDisplay: React.FC<PriceDisplayProps> = ({
   );
 };
 
-// Large price display for headers
 export const LargePriceDisplay: React.FC<PriceDisplayProps> = ({
   amount,
   currency = 'INR',
@@ -157,7 +169,6 @@ export const LargePriceDisplay: React.FC<PriceDisplayProps> = ({
   );
 };
 
-// Currency selector component
 interface CurrencySelectorProps {
   selectedCurrency: string;
   onCurrencyChange: (currency: string) => void;
@@ -173,7 +184,7 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
 }) => {
   return (
     <View style={[styles.currencySelector, style]}>
-      {currencies.map((currency) => (
+      {currencies.map(currency => (
         <Text
           key={currency}
           style={[

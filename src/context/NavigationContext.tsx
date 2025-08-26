@@ -10,7 +10,9 @@ interface NavigationContextType {
   goBack: () => void;
 }
 
-const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
+const NavigationContext = createContext<NavigationContextType | undefined>(
+  undefined
+);
 
 export const useNavigation = () => {
   const context = useContext(NavigationContext);
@@ -24,9 +26,13 @@ interface NavigationProviderProps {
   children: ReactNode;
 }
 
-export const NavigationProvider: React.FC<NavigationProviderProps> = ({ children }) => {
+export const NavigationProvider: React.FC<NavigationProviderProps> = ({
+  children,
+}) => {
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
-  const [currentScreen, setCurrentScreen] = useState<'onboarding' | 'home' | 'metalDetail'>('onboarding');
+  const [currentScreen, setCurrentScreen] = useState<
+    'onboarding' | 'home' | 'metalDetail'
+  >('onboarding');
   const [selectedMetal, setSelectedMetal] = useState<any | null>(null);
 
   const completeOnboarding = () => {

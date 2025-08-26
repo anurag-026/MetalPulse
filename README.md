@@ -11,6 +11,13 @@
   <img alt="License" src="https://img.shields.io/badge/License-MIT-green.svg">
 </p>
 
+<p align="center">
+  <video width="300" controls>
+    <source src="metal-pulse.webm" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
+</p>
+
 ## 📱 About
 
 Elemental Pulse is a modern React Native application that provides users with real-time precious metal price tracking, beautiful onboarding experience, and an intuitive interface for monitoring market data. The app features smooth animations, gesture controls, and a responsive design built with modern React Native practices.
@@ -85,29 +92,33 @@ Before running this project, make sure you have the following installed:
 ## 🛠️ Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/anurag-026/MetalPulse.git
    cd MetalPulse
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Start the development server**
+
    ```bash
    npm start
    ```
 
 4. **Run on device/emulator**
+
    ```bash
    # For Android
    npm run android
-   
+
    # For iOS
    npm run ios
-   
+
    # For web (experimental)
    npm run web
    ```
@@ -115,11 +126,13 @@ Before running this project, make sure you have the following installed:
 ## 📱 Running the App
 
 ### Development Mode
+
 - Start the Metro bundler with `npm start`
 - Use Expo Go app on your device to scan the QR code
 - Or press `a` for Android emulator or `i` for iOS simulator
 
 ### Building for Production
+
 ```bash
 # Build Android APK
 expo build:android
@@ -131,27 +144,33 @@ expo build:ios
 ## 🔧 Configuration
 
 ### API Configuration
+
 The app uses mock data by default. To configure real API endpoints, update the configuration in:
+
 - `src/config/apiConfig.ts`
 - `src/services/metalApi.ts`
 
 ### Environment Variables
+
 Create a `.env` file in the root directory for any environment-specific configurations.
 
 ## 📊 Features in Detail
 
 ### Onboarding Screens
+
 - Smooth animated transitions between screens
 - Gesture-based navigation
 - Beautiful visual design with gradients
 
 ### Metal Price Tracking
+
 - Real-time price updates for precious metals
 - Price change indicators and percentages
 - Historical data visualization
 - Multi-currency support
 
 ### User Interface
+
 - Responsive design for all screen sizes
 - Dark/light theme support
 - Smooth animations and transitions
@@ -162,6 +181,7 @@ Create a `.env` file in the root directory for any environment-specific configur
 ### 🔴 Critical Issues
 
 #### API Integration & Data
+
 - **Limited Real API Integration**: Currently heavily relies on mock data with basic API fallback
 - **API Rate Limiting**: No proper rate limiting or caching mechanism implemented
 - **Error Handling**: Basic error handling without user-friendly error messages or retry mechanisms
@@ -169,6 +189,7 @@ Create a `.env` file in the root directory for any environment-specific configur
 - **Offline Support**: No proper offline-first architecture or data persistence
 
 #### Performance & Scalability
+
 - **Memory Management**: No optimization for large datasets or long-running sessions
 - **Bundle Size**: No code splitting or lazy loading implemented
 - **Image Optimization**: No image compression or lazy loading for assets
@@ -177,6 +198,7 @@ Create a `.env` file in the root directory for any environment-specific configur
 ### 🟡 Medium Priority Improvements
 
 #### User Experience
+
 - **Authentication**: No user login/signup system or user profile management
 - **Personalization**: Limited customization options for users
 - **Notifications**: No push notifications for price alerts or market updates
@@ -184,6 +206,7 @@ Create a `.env` file in the root directory for any environment-specific configur
 - **Favorites/Watchlist**: No persistent user preferences or watchlist functionality
 
 #### Data & Analytics
+
 - **Historical Charts**: No interactive charts or technical analysis tools
 - **Portfolio Tracking**: No user portfolio management or performance tracking
 - **Market News**: No integration with financial news or market sentiment data
@@ -191,6 +214,7 @@ Create a `.env` file in the root directory for any environment-specific configur
 - **Data Accuracy**: Limited validation of mock data accuracy
 
 #### Technical Architecture
+
 - **Testing**: No unit tests, integration tests, or E2E tests implemented
 - **CI/CD**: No automated testing or deployment pipeline
 - **Code Quality**: Missing ESLint, Prettier, or code formatting tools
@@ -200,6 +224,7 @@ Create a `.env` file in the root directory for any environment-specific configur
 ### 🟢 Future Enhancements
 
 #### Advanced Features
+
 - **Real-time Updates**: WebSocket integration for live price updates
 - **Advanced Charts**: Interactive charts with multiple timeframes and indicators
 - **Social Features**: User communities, sharing, and social trading features
@@ -207,12 +232,14 @@ Create a `.env` file in the root directory for any environment-specific configur
 - **Multi-language**: Internationalization support for multiple languages
 
 #### Platform Expansion
+
 - **Web Version**: React Native Web support for cross-platform accessibility
 - **Desktop App**: Electron-based desktop application
 - **Watch App**: Apple Watch and Wear OS companion apps
 - **Widgets**: Home screen widgets for quick price checks
 
 #### Enterprise Features
+
 - **Admin Panel**: Backend management system for administrators
 - **Analytics Dashboard**: User behavior and app performance analytics
 - **Multi-tenant**: Support for multiple organizations or user groups
@@ -221,6 +248,7 @@ Create a `.env` file in the root directory for any environment-specific configur
 ## 🎯 Immediate Action Items (2-Week Sprint)
 
 ### Week 1: Foundation & Core Issues
+
 - [ ] Implement proper error handling and user feedback
 - [ ] Add input validation and data sanitization
 - [ ] Set up basic testing framework (Jest + React Native Testing Library)
@@ -229,6 +257,7 @@ Create a `.env` file in the root directory for any environment-specific configur
 - [ ] Add user authentication system (basic login/signup)
 
 ### Week 2: Features & Polish
+
 - [ ] Create portfolio tracking functionality
 - [ ] Implement push notifications for price alerts
 - [ ] Add interactive charts and historical data
@@ -269,6 +298,3 @@ If you encounter any issues or have questions:
 ---
 
 **Made with ❤️ using React Native and Expo**
-
-
- 

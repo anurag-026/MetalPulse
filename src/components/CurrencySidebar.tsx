@@ -50,11 +50,10 @@ export const CurrencySidebar: React.FC<CurrencySidebarProps> = ({
   const handleCurrencySelect = (selectedCurrency: string) => {
     const currencyInfo = getCurrencyInfo(selectedCurrency);
     const currencyName = getCurrencyName(selectedCurrency);
-    
+
     setCurrency(selectedCurrency);
     onClose();
-    
-    // Show success toast
+
     Toast.show({
       type: 'success',
       text1: `Switched to ${currencyName} (${selectedCurrency})`,
@@ -79,16 +78,30 @@ export const CurrencySidebar: React.FC<CurrencySidebarProps> = ({
         activeOpacity={0.7}
       >
         <View style={styles.currencyInfo}>
-          <View style={[styles.currencyIcon, isSelected && styles.selectedIcon]}>
-            <Text style={[styles.currencySymbol, isSelected && styles.selectedIconText]}>
+          <View
+            style={[styles.currencyIcon, isSelected && styles.selectedIcon]}
+          >
+            <Text
+              style={[
+                styles.currencySymbol,
+                isSelected && styles.selectedIconText,
+              ]}
+            >
               {currencyInfo?.icon || currencyCode}
             </Text>
           </View>
           <View style={styles.currencyDetails}>
-            <Text style={[styles.currencyCode, isSelected && styles.selectedText]}>
+            <Text
+              style={[styles.currencyCode, isSelected && styles.selectedText]}
+            >
               {currencyCode}
             </Text>
-            <Text style={[styles.currencyName, isSelected && styles.selectedSubText]}>
+            <Text
+              style={[
+                styles.currencyName,
+                isSelected && styles.selectedSubText,
+              ]}
+            >
               {currencyName}
             </Text>
           </View>
@@ -106,7 +119,7 @@ export const CurrencySidebar: React.FC<CurrencySidebarProps> = ({
 
   return (
     <>
-      {/* Backdrop */}
+      {}
       <TouchableOpacity
         style={styles.backdrop}
         activeOpacity={1}
@@ -115,7 +128,7 @@ export const CurrencySidebar: React.FC<CurrencySidebarProps> = ({
         <View style={styles.backdropView} />
       </TouchableOpacity>
 
-      {/* Sidebar */}
+      {}
       <Animated.View
         style={[
           styles.sidebar,
@@ -125,28 +138,27 @@ export const CurrencySidebar: React.FC<CurrencySidebarProps> = ({
         ]}
       >
         <StatusBar barStyle="light-content" backgroundColor="#1a1a2e" />
-        
-        {/* Header */}
-        <LinearGradient
-          colors={['#1a1a2e', '#16213e']}
-          style={styles.header}
-        >
+
+        {}
+        <LinearGradient colors={['#1a1a2e', '#16213e']} style={styles.header}>
           <View style={styles.headerContent}>
             <Text style={styles.headerTitle}>Currency</Text>
-            <Text style={styles.headerSubtitle}>Select your preferred currency</Text>
+            <Text style={styles.headerSubtitle}>
+              Select your preferred currency
+            </Text>
           </View>
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
             <Ionicons name="close" size={24} color="#ffffff" />
           </TouchableOpacity>
         </LinearGradient>
 
-        {/* Currency Options */}
+        {}
         <View style={styles.content}>
           <Text style={styles.sectionTitle}>Available Currencies</Text>
           {supportedCurrencies.map(renderCurrencyOption)}
         </View>
 
-        {/* Footer */}
+        {}
         <View style={styles.footer}>
           <Text style={styles.footerText}>
             Prices will be displayed in your selected currency

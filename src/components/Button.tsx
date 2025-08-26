@@ -59,7 +59,6 @@ export function Button({
     if (!isLastScreen) {
       flatListRef.current?.scrollToIndex({ index: flatListIndex.value + 1 });
     } else {
-      // Complete onboarding and navigate to home
       completeOnboarding();
     }
   };
@@ -73,7 +72,7 @@ export function Button({
         Get Started
       </Animated.Text>
 
-      <Animated.View style={[styles.arrow,arrowAnimationStyle]}>
+      <Animated.View style={[styles.arrow, arrowAnimationStyle]}>
         <Feather
           name="arrow-right"
           size={30}

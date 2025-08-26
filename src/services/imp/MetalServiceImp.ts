@@ -1,12 +1,12 @@
-// Metal Service Implementation - Concrete implementation of MetalServiceDao
-// Handles actual API calls, HTTP requests, responses, and error handling
-// Following the clean architecture pattern
-
 import { MetalServiceDao } from '../dao/MetalServiceDao';
-import { MetalPriceDTO, ApiResponseDTO, MetalSymbols, ApiConfig } from '../../models/MetalModels';
+import {
+  MetalPriceDTO,
+  ApiResponseDTO,
+  MetalSymbols,
+  ApiConfig,
+} from '../../models/MetalModels';
 
 export class MetalServiceImp implements MetalServiceDao {
-  // API Configuration
   private readonly API_CONFIG: Record<string, ApiConfig> = {
     GOLD_API: {
       baseUrl: 'https://www.goldapi.io/api',
@@ -21,7 +21,6 @@ export class MetalServiceImp implements MetalServiceDao {
     },
   };
 
-  // Metal symbols mapping
   private readonly METAL_SYMBOLS: Record<string, MetalSymbols> = {
     gold: { goldApi: 'XAU', metalsDev: 'gold' },
     silver: { goldApi: 'XAG', metalsDev: 'silver' },
@@ -29,7 +28,6 @@ export class MetalServiceImp implements MetalServiceDao {
     palladium: { goldApi: 'XPD', metalsDev: 'palladium' },
   };
 
-  // Currency mapping - INR is now primary
   private readonly CURRENCY_SYMBOLS = {
     INR: 'INR',
     USD: 'USD',
@@ -37,9 +35,6 @@ export class MetalServiceImp implements MetalServiceDao {
     GBP: 'GBP',
   };
 
-  /**
-   * Fetch metal price from a specific API source
-   */
   async fetchMetalPrice(
     metalId: string,
     currency: string = 'INR',
@@ -52,7 +47,10 @@ export class MetalServiceImp implements MetalServiceDao {
         case 'METALS_DEV':
           return await this.fetchFromMetalsDev(metalId, currency);
         default:
-          return ApiResponseDTO.error(`Unsupported API source: ${source}`, source);
+          return ApiResponseDTO.error(
+            `Unsupported API source: ${source}`,
+            source
+          );
       }
     } catch (error) {
       console.error(`${source} error for ${metalId}:`, error);
@@ -63,41 +61,34 @@ export class MetalServiceImp implements MetalServiceDao {
     }
   }
 
-  /**
-   * Fetch metal price with fallback mechanism
-   */
   async fetchMetalPriceWithFallback(
     metalId: string,
     currency: string = 'INR'
   ): Promise<ApiResponseDTO> {
-    // Try GoldAPI first (more comprehensive data)
     let response = await this.fetchFromGoldAPI(metalId, currency);
-    
-    // If GoldAPI fails, try Metals.dev as fallback
+
     if (!response.success) {
       console.log(`GoldAPI failed for ${metalId}, trying Metals.dev...`);
       response = await this.fetchFromMetalsDev(metalId, currency);
     }
 
-    // If both APIs fail, return error
     if (!response.success) {
-      return ApiResponseDTO.error(`All API sources failed for ${metalId}`, 'All sources');
+      return ApiResponseDTO.error(
+        `All API sources failed for ${metalId}`,
+        'All sources'
+      );
     }
 
     return response;
   }
 
-  /**
-   * Fetch all metal prices for a given currency
-   */
   async fetchAllMetalPrices(
     currency: string = 'INR'
   ): Promise<Record<string, ApiResponseDTO>> {
     const metals = Object.keys(this.METAL_SYMBOLS);
     const results: Record<string, ApiResponseDTO> = {};
 
-    // Fetch all metals concurrently
-    const promises = metals.map(async (metalId) => {
+    const promises = metals.map(async metalId => {
       const result = await this.fetchMetalPriceWithFallback(metalId, currency);
       results[metalId] = result;
     });
@@ -106,21 +97,18 @@ export class MetalServiceImp implements MetalServiceDao {
     return results;
   }
 
-  /**
-   * Check the status of all available API sources
-   */
   async checkAPIStatus(): Promise<Record<string, boolean>> {
     const status: Record<string, boolean> = {};
 
-    // Check GoldAPI status
     try {
-      const response = await fetch(`${this.API_CONFIG.GOLD_API.baseUrl}/status`);
+      const response = await fetch(
+        `${this.API_CONFIG.GOLD_API.baseUrl}/status`
+      );
       status.GoldAPI = response.ok;
     } catch {
       status.GoldAPI = false;
     }
 
-    // Check Metals.dev status
     try {
       const response = await fetch(
         `${this.API_CONFIG.METALS_DEV.baseUrl}/latest?api_key=${this.API_CONFIG.METALS_DEV.apiKey}&currency=USD&unit=toz`
@@ -133,9 +121,6 @@ export class MetalServiceImp implements MetalServiceDao {
     return status;
   }
 
-  /**
-   * Generate mock data for development/testing purposes
-   */
   generateMockData(metalId: string): MetalPriceDTO {
     const basePrices: Record<string, number> = {
       gold: 1950 + Math.random() * 100,
@@ -166,30 +151,18 @@ export class MetalServiceImp implements MetalServiceDao {
     );
   }
 
-  /**
-   * Get supported metal symbols
-   */
   getSupportedMetals(): Record<string, any> {
     return this.METAL_SYMBOLS;
   }
 
-  /**
-   * Get supported currencies
-   */
   getSupportedCurrencies(): string[] {
     return Object.keys(this.CURRENCY_SYMBOLS);
   }
 
-  /**
-   * Get primary currency
-   */
   getPrimaryCurrency(): string {
     return 'INR';
   }
 
-  /**
-   * Fetch metal price from GoldAPI
-   */
   private async fetchFromGoldAPI(
     metalId: string,
     currency: string = 'USD'
@@ -205,9 +178,11 @@ export class MetalServiceImp implements MetalServiceDao {
       headers: this.API_CONFIG.GOLD_API.headers,
     });
 
-    // Handle throttling / rate limiting
     if (response.status === 429) {
-      return ApiResponseDTO.error('429 Too Many Requests - Throttled by GoldAPI', 'GoldAPI');
+      return ApiResponseDTO.error(
+        '429 Too Many Requests - Throttled by GoldAPI',
+        'GoldAPI'
+      );
     }
 
     if (!response.ok) {
@@ -216,17 +191,14 @@ export class MetalServiceImp implements MetalServiceDao {
 
     const data = await response.json();
 
-    // Check for API error responses
     if (data.error) {
       return ApiResponseDTO.error(data.error, 'GoldAPI');
     }
 
-    // Validate required fields
     if (data.price === undefined || data.price === null) {
       return ApiResponseDTO.error('Price data not available', 'GoldAPI');
     }
 
-    // Calculate change and change percent
     const prevClose = data.prev_close_price || data.price;
     const change = data.price - prevClose;
     const changePercent = prevClose > 0 ? (change / prevClose) * 100 : 0;
@@ -251,23 +223,26 @@ export class MetalServiceImp implements MetalServiceDao {
     return ApiResponseDTO.success(metalData, 'GoldAPI');
   }
 
-  /**
-   * Fetch metal price from Metals.dev API
-   */
   private async fetchFromMetalsDev(
     metalId: string,
     currency: string = 'USD'
   ): Promise<ApiResponseDTO> {
     const symbol = this.METAL_SYMBOLS[metalId]?.metalsDev;
     if (!symbol) {
-      return ApiResponseDTO.error(`Unsupported metal: ${metalId}`, 'Metals.dev');
+      return ApiResponseDTO.error(
+        `Unsupported metal: ${metalId}`,
+        'Metals.dev'
+      );
     }
 
     const url = `${this.API_CONFIG.METALS_DEV.baseUrl}/latest?api_key=${this.API_CONFIG.METALS_DEV.apiKey}&currency=${currency}&unit=toz`;
     const response = await fetch(url);
 
     if (response.status === 429) {
-      return ApiResponseDTO.error('429 Too Many Requests - Throttled by Metals.dev', 'Metals.dev');
+      return ApiResponseDTO.error(
+        '429 Too Many Requests - Throttled by Metals.dev',
+        'Metals.dev'
+      );
     }
 
     if (!response.ok) {
@@ -276,12 +251,10 @@ export class MetalServiceImp implements MetalServiceDao {
 
     const data = await response.json();
 
-    // Check for API error responses
     if (data.status !== 'success') {
       return ApiResponseDTO.error('API request failed', 'Metals.dev');
     }
 
-    // Validate required fields
     if (!data.metals || !data.metals[symbol]) {
       return ApiResponseDTO.error('Price data not available', 'Metals.dev');
     }
@@ -291,7 +264,6 @@ export class MetalServiceImp implements MetalServiceDao {
       return ApiResponseDTO.error('Price data not available', 'Metals.dev');
     }
 
-    // For Metals.dev, we'll use mock change data since it only provides current prices
     const mockChange = (Math.random() - 0.5) * 20;
     const mockChangePercent = (mockChange / price) * 100;
 
@@ -309,7 +281,6 @@ export class MetalServiceImp implements MetalServiceDao {
     return ApiResponseDTO.success(metalData, 'Metals.dev');
   }
 
-  // Helper functions
   private getMetalName(metalId: string): string {
     const names: Record<string, string> = {
       gold: 'Gold',

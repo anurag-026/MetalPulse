@@ -1,6 +1,3 @@
-// Metal Models - Data Transfer Objects and interfaces
-// Following the clean architecture pattern with immutable design
-
 export interface MetalPriceData {
   id: string;
   name: string;
@@ -49,7 +46,6 @@ export interface CurrencySymbols {
   INR: string;
 }
 
-// DTO for API responses
 export class MetalPriceDTO {
   constructor(
     public readonly id: string,
@@ -68,7 +64,6 @@ export class MetalPriceDTO {
     public readonly prevClose?: number
   ) {}
 
-  // Factory method to create from JSON
   static fromJSON(json: any): MetalPriceDTO {
     return new MetalPriceDTO(
       json.id,
@@ -88,7 +83,6 @@ export class MetalPriceDTO {
     );
   }
 
-  // Convert to JSON
   toJSON(): any {
     return {
       id: this.id,
@@ -108,7 +102,6 @@ export class MetalPriceDTO {
     };
   }
 
-  // Validation method
   isValid(): boolean {
     return (
       !!this.id &&
@@ -121,7 +114,6 @@ export class MetalPriceDTO {
   }
 }
 
-// DTO for API responses
 export class ApiResponseDTO {
   constructor(
     public readonly success: boolean,
@@ -130,17 +122,14 @@ export class ApiResponseDTO {
     public readonly source: string
   ) {}
 
-  // Factory method to create success response
   static success(data: MetalPriceDTO, source: string): ApiResponseDTO {
     return new ApiResponseDTO(true, data, undefined, source);
   }
 
-  // Factory method to create error response
   static error(error: string, source: string): ApiResponseDTO {
     return new ApiResponseDTO(false, undefined, error, source);
   }
 
-  // Convert to JSON
   toJSON(): any {
     return {
       success: this.success,

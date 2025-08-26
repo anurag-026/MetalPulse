@@ -10,11 +10,11 @@ interface SkeletonProps {
   style?: any;
 }
 
-export const Skeleton: React.FC<SkeletonProps> = ({ 
-  width = '100%', 
-  height = 20, 
+export const Skeleton: React.FC<SkeletonProps> = ({
+  width = '100%',
+  height = 20,
   borderRadius = 8,
-  style 
+  style,
 }) => {
   const shimmerAnim = useRef(new Animated.Value(-SCREEN_WIDTH)).current;
 
@@ -42,7 +42,6 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   );
 };
 
-// Predefined skeleton components for common use cases
 export const SkeletonCard: React.FC = () => (
   <View style={styles.skeletonCard}>
     <View style={styles.skeletonCardHeader}>
